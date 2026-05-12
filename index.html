@@ -994,6 +994,7 @@ input::placeholder { color: #c0b8b0; }
 <!-- ===== HOME ===== -->
 <div id="home" class="page active">
   <div class="fullbleed">
+    <img src="mirror.jpg" alt="Rob & Hanna" class="fullbleed-img" onerror="this.style.display='none';" />
     <div class="fb-text-block">
       <div class="fb-names">Rob &amp; Hanna</div>
       <div class="fb-date">7.11.26</div>
@@ -1265,10 +1266,14 @@ function updateCountdown() {
   const hours = Math.floor((diff % 86400000) / 3600000);
   const mins = Math.floor((diff % 3600000) / 60000);
   const secs = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cd-days').textContent = days;
-  document.getElementById('cd-hours').textContent = hours;
-  document.getElementById('cd-mins').textContent = mins;
-  document.getElementById('cd-secs').textContent = secs;
+  const dEl = document.getElementById('cd-days');
+  const hEl = document.getElementById('cd-hours');
+  const mEl = document.getElementById('cd-mins');
+  const sEl = document.getElementById('cd-secs');
+  if (dEl) dEl.textContent = days;
+  if (hEl) hEl.textContent = hours;
+  if (mEl) mEl.textContent = mins;
+  if (sEl) sEl.textContent = secs;
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
