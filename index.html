@@ -5,510 +5,314 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rob & Hanna — 7.11.26</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Reenie+Beanie&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@200;300;400;500&display=swap');
 
 :root {
-  --cream: #f5f0e8;
-  --cream-dark: #ede6d6;
-  --raspberry: #c0395a;
-  --raspberry-light: #d4546f;
-  --raspberry-pale: #f5d5dc;
-  --ink: #1a1410;
-  --ink-light: #3d2e28;
-  --green: #4a7c59;
+  --blue: #2b35af;
+  --blue-dark: #1e2680;
+  --blue-mid: #3540c0;
+  --cream: #f5f2ee;
+  --cream-dark: #ede8e0;
+  --white: #ffffff;
+  --muted: rgba(43,53,175,0.45);
+  --border: rgba(43,53,175,0.15);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: 'Kalam', cursive;
+  background: var(--blue);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
   min-height: 100vh;
   overflow-x: hidden;
 }
 
-/* Paper texture overlay */
-body::before {
-  content: '';
+/* ENTRANCE */
+#entrance {
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
+  background: var(--blue-dark);
   z-index: 1000;
-  opacity: 0.4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  text-align: center;
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
+
+#entrance.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  pointer-events: none;
+}
+
+.entrance-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 48px;
+}
+
+.poem { max-width: 420px; margin: 0 auto 48px; }
+
+.poem-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 4vw, 26px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.7;
+  display: block;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.7s ease forwards;
+}
+
+.poem-line:nth-child(1) { animation-delay: 0.3s; }
+.poem-line:nth-child(2) { animation-delay: 0.6s; }
+.poem-line:nth-child(3) { animation-delay: 0.9s; }
+.poem-line:nth-child(4) { animation-delay: 1.2s; }
+
+.poem-attribution {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-top: 24px;
+  opacity: 0;
+  animation: fadeUp 0.7s ease 1.6s forwards;
+}
+
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+.enter-btn {
+  opacity: 0;
+  animation: fadeUp 0.7s ease 2.1s forwards;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  padding: 16px 48px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.enter-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--white); }
+
+/* MAIN SITE */
+#main-site { display: none; min-height: 100vh; }
+#main-site.visible { display: block; }
 
 /* NAV */
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 16px 24px;
+  padding: 28px 56px;
   display: flex;
-  justify-content: center;
-  gap: 32px;
-  background: transparent;
-  border-bottom: none;
-  transition: background 0.3s, border-bottom 0.3s;
-}
-nav.scrolled {
+  justify-content: flex-start;
+  align-items: center;
   background: var(--cream);
-  border-bottom: 2px solid var(--raspberry);
+  transition: padding 0.3s;
 }
 
-nav a {
-  font-family: 'Caveat', cursive;
-  font-size: 20px;
-  font-weight: 600;
-  color: white;
+nav.scrolled { padding: 18px 56px; }
+
+.nav-brand { display: none; }
+
+.nav-links { display: flex; gap: 0; list-style: none; }
+
+.nav-links li::after {
+  content: ',';
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--blue);
+  margin-right: 6px;
+}
+
+.nav-links li:last-child::after { content: ''; margin-right: 0; }
+
+.nav-links a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--blue);
   text-decoration: none;
-  position: relative;
-  transition: color 0.2s;
+  transition: opacity 0.2s;
+  margin-right: 2px;
 }
-nav.scrolled a { color: var(--ink); }
-nav a:hover { color: var(--raspberry); }
-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -3px; left: 0; right: 0;
-  height: 2px;
-  background: var(--raspberry);
-  transform: scaleX(0);
-  transition: transform 0.2s;
-  border-radius: 2px;
-}
-nav a:hover::after { transform: scaleX(1); }
+.nav-links a:hover { opacity: 0.6; }
 
-/* PAGES */
-.page { display: block; min-height: 100vh; }
-.page:not(#home) { padding-top: 60px; }
-
-/* ===== HOME PAGE ===== */
-#home {
-  display: block;
-  padding-top: 0 !important;
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--blue);
+  font-size: 22px;
+  cursor: pointer;
 }
 
+/* HERO */
 .hero {
   width: 100%;
-  max-width: 700px;
-  margin: 40px auto 0;
-  padding: 0 24px;
-  text-align: center;
+  height: 100vh;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
 }
 
-.scrapbook {
-  position: relative;
-  width: 100%;
-  max-width: 680px;
-  margin: 0 auto 48px;
-  height: 380px;
-}
-
-.polaroid-wrap {
+.hero-img {
   position: absolute;
-  display: inline-block;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  filter: grayscale(15%) contrast(1.05) brightness(0.9);
 }
 
-/* Greece - big landscape hero */
-.polaroid-wrap.greece {
-  left: 50%;
-  top: 20px;
-  transform: translateX(-50%) rotate(-2deg);
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(26,35,64,0.3) 0%, transparent 30%, transparent 50%, rgba(17,24,39,0.75) 100%);
   z-index: 1;
 }
 
-/* Mirror - smaller portrait, overlapping bottom right */
-.polaroid-wrap.mirror-pic {
-  right: 20px;
-  bottom: -20px;
-  transform: rotate(4deg);
-  z-index: 2;
-}
-
-.polaroid {
-  background: white;
-  box-shadow: 4px 5px 24px rgba(0,0,0,0.2), -1px -1px 6px rgba(0,0,0,0.05);
-  display: inline-block;
+.hero-text {
   position: relative;
-}
-
-.polaroid.landscape {
-  padding: 12px 12px 52px;
-  width: 420px;
-}
-
-.polaroid.portrait {
-  padding: 10px 10px 12px;
-  width: 220px;
-}
-
-.polaroid.landscape img {
+  z-index: 2;
+  padding: 48px;
   width: 100%;
-  height: 240px;
-  object-fit: cover;
-  object-position: center 20%;
-  filter: grayscale(15%) contrast(1.05);
-  display: block;
 }
 
-.polaroid.portrait img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center top;
-  filter: grayscale(15%) contrast(1.05);
-  display: block;
-}
-
-.polaroid-caption {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  color: var(--raspberry);
-  text-align: center;
-  padding-top: 10px;
-  font-weight: 600;
-}
-
-/* Tape effect */
-.tape {
-  position: absolute;
-  width: 60px;
-  height: 22px;
-  background: rgba(255, 220, 180, 0.55);
-  border: 1px solid rgba(200,160,120,0.3);
-  left: 50%;
-  transform: translateX(-50%) rotate(-1deg);
-  top: -11px;
-  z-index: 3;
-}
-
-.tape::before, .tape::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: 6px;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(180,130,80,0.08) 0px,
-    rgba(180,130,80,0.08) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
-.tape::before { left: 0; }
-.tape::after  { right: 0; }
-
-/* Speech bubble repositioned */
-.speech-bubble {
-  position: absolute;
-  top: -30px;
-  left: -50px;
-  z-index: 4;
-}
-
-.speech-bubble svg { width: 140px; height: 110px; }
-
-.bubble-text {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-family: 'Caveat', cursive;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--raspberry);
-  line-height: 1.2;
-  text-align: center;
-  width: 110px;
-}
-
-/* Speech bubble */
-.speech-bubble {
-  position: absolute;
-  top: -20px;
-  right: -40px;
-  background: transparent;
-}
-
-.speech-bubble svg {
-  width: 160px;
-  height: 130px;
-}
-
-.bubble-text {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  font-family: 'Caveat', cursive;
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--raspberry);
-  line-height: 1.2;
-  text-align: center;
-  width: 120px;
-}
-
-/* Sketchy doodles */
-.doodle-hearts {
-  position: absolute;
-  left: -50px;
-  top: 40%;
-}
-
-.names-block {
-  margin: 8px 0 16px;
-}
-
-.names-handwritten {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: 88px;
-  color: var(--ink);
+.hero-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--white);
   line-height: 0.95;
   display: block;
-  letter-spacing: -2px;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
 }
 
-.ampersand {
-  color: var(--raspberry);
-  font-size: 72px;
-}
-
-.date-location {
-  font-family: 'Architects Daughter', cursive;
-  font-size: 22px;
-  color: var(--raspberry);
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-}
-
-.venue-tag {
-  font-family: 'Kalam', cursive;
-  font-size: 16px;
-  color: var(--ink-light);
-  margin-bottom: 32px;
-}
-
-/* Countdown */
-.countdown {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin: 24px 0 40px;
-  flex-wrap: wrap;
-}
-
-.count-box {
-  background: white;
-  border: 2px solid var(--raspberry);
-  border-radius: 4px;
-  padding: 12px 20px;
-  text-align: center;
-  min-width: 80px;
-  box-shadow: 3px 3px 0 var(--raspberry);
-  transform: rotate(-0.5deg);
-}
-.count-box:nth-child(2) { transform: rotate(0.8deg); }
-.count-box:nth-child(3) { transform: rotate(-0.3deg); }
-.count-box:nth-child(4) { transform: rotate(0.6deg); }
-
-.count-num {
-  font-family: 'Caveat', cursive;
-  font-size: 40px;
-  font-weight: 700;
-  color: var(--raspberry);
-  line-height: 1;
+.hero-date {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.65);
   display: block;
 }
-.count-lbl {
-  font-family: 'Kalam', cursive;
-  font-size: 12px;
-  color: var(--ink-light);
-  margin-top: 2px;
-}
 
-/* Sketchy border bottom */
-.sketchy-divider {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 40px;
-}
-
-/* ===== INFO PAGE ===== */
-.info-wrap {
-  max-width: 680px;
-  margin: 40px auto;
-  padding: 0 24px 60px;
-}
-
-.info-card {
-  background: white;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  padding: 28px 32px;
-  margin-bottom: 24px;
-  position: relative;
-  box-shadow: 4px 4px 0 var(--raspberry);
-  transform: rotate(-0.3deg);
-}
-.info-card:nth-child(2) { transform: rotate(0.4deg); }
-.info-card:nth-child(3) { transform: rotate(-0.2deg); }
-
-.info-card-title {
-  font-family: 'Caveat', cursive;
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--raspberry);
-  margin-bottom: 12px;
-  border-bottom: 2px dashed var(--raspberry-pale);
-  padding-bottom: 8px;
-}
-
-.info-card p {
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--ink-light);
-  margin-bottom: 8px;
-}
-
-.info-card strong {
-  color: var(--ink);
-  font-weight: 700;
-}
-
-.schedule-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 10px;
-  align-items: flex-start;
-}
-
-.schedule-time {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--raspberry);
-  min-width: 70px;
-}
-
-.schedule-event {
-  font-size: 16px;
-  color: var(--ink-light);
-  line-height: 1.4;
-}
-
-/* ===== RSVP PAGE ===== */
-.rsvp-wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
-}
-
-.rsvp-header {
-  margin-bottom: 48px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 32px;
-}
-
-.rsvp-eyebrow {
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  right: 48px;
+  z-index: 2;
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+/* SECTIONS */
+.section { padding: 90px 48px; }
+.section-inner { max-width: 780px; margin: 0 auto; }
+.section.light { background: var(--cream); color: var(--blue); }
+.section.dark { background: var(--blue); color: var(--white); }
+
+.section-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--muted, #888);
-  margin-bottom: 12px;
+  color: var(--blue);
+  margin-bottom: 14px;
+  display: block;
 }
 
-.page-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 56px;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1;
-  margin-bottom: 12px;
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 58px);
+  font-style: normal;
   font-weight: 400;
+  line-height: 1.05;
+  margin-bottom: 24px;
 }
 
-.page-subtitle {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--ink-light);
-  font-weight: 300;
-  line-height: 1.6;
-}
+.section.light .section-title { color: var(--blue); }
+.section.dark .section-title { color: var(--white); }
 
-.party-toggle {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 32px;
-}
+.divider { width: 40px; height: 1px; background: var(--blue); margin-bottom: 36px; }
 
-.party-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  margin-right: 4px;
-}
+/* RSVP */
+.party-toggle { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+.party-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #888; }
 
 .toggle-btn {
-  padding: 8px 20px;
-  border: 1px solid var(--ink);
-  border-radius: 2px;
+  padding: 10px 24px;
+  border: 1px solid #c0b8b0;
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  letter-spacing: 1px;
+  font-size: 10px;
+  letter-spacing: 2px;
   text-transform: uppercase;
   cursor: pointer;
   background: transparent;
-  color: var(--ink);
-  transition: all 0.15s;
+  color: var(--blue);
+  transition: all 0.2s;
 }
-.toggle-btn.active {
-  background: var(--ink);
-  color: white;
-}
-.toggle-btn:hover:not(.active) { border-color: var(--raspberry); color: var(--raspberry); }
+.toggle-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
 
-.guests-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-  margin-bottom: 24px;
-}
+.guests-grid { display: grid; grid-template-columns: 1fr; gap: 28px; margin-bottom: 24px; }
 .guests-grid.two-up { grid-template-columns: 1fr 1fr; }
 
 .guest-card {
   background: white;
-  border: 1px solid #d0c8bc;
-  padding: 32px;
-  position: relative;
+  border: 1px solid #ddd6cc;
+  padding: 36px;
 }
-.guest-card:first-child { transform: rotate(-0.4deg); box-shadow: 3px 3px 0 var(--raspberry); }
-.guest-card:last-child { transform: rotate(0.3deg); box-shadow: 3px 3px 0 var(--raspberry); }
+.guest-card:first-child { transform: rotate(-0.3deg); box-shadow: 3px 3px 0 var(--blue); }
+.guest-card:last-child  { transform: rotate(0.3deg);  box-shadow: 3px 3px 0 var(--blue); }
 .guest-card.hidden { display: none; }
 
 .guest-card-title {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 22px;
-  font-style: italic;
-  color: var(--ink);
+  font-style: normal;
+  color: var(--blue);
   margin-bottom: 24px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e8e0d4;
-  font-weight: 400;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ede6d6;
 }
 
 .field-label {
   display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--ink-light);
+  color: #999;
   margin-bottom: 10px;
   margin-top: 24px;
 }
@@ -522,775 +326,414 @@ input[type="text"], input[type="password"] {
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
   font-weight: 300;
-  color: var(--ink);
+  color: var(--blue);
   outline: none;
   transition: border-color 0.2s;
 }
-input:focus { border-bottom-color: var(--raspberry); }
+input:focus { border-bottom-color: var(--blue); }
 input::placeholder { color: #c0b8b0; }
 
-.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.pill-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 
 .pill {
-  padding: 6px 14px;
+  padding: 7px 16px;
   border: 1px solid #c0b8b0;
-  border-radius: 2px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.5px;
+  font-size: 11px;
+  letter-spacing: 1px;
   cursor: pointer;
   background: transparent;
-  color: var(--ink);
+  color: var(--blue);
   transition: all 0.15s;
 }
-.pill:hover { border-color: var(--raspberry); color: var(--raspberry); }
-.pill.selected {
-  background: var(--raspberry);
-  color: white;
-  border-color: var(--raspberry);
-}
+.pill:hover { border-color: var(--blue); }
+.pill.selected { background: var(--blue); color: white; border-color: var(--blue); }
 
 .song-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
 .song-row input { flex: 1; }
 
 .add-song-btn {
   font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
+  font-size: 9px;
   letter-spacing: 2px;
   text-transform: uppercase;
   background: none;
   border: 1px dashed #c0b8b0;
-  padding: 7px 14px;
+  padding: 8px 16px;
   cursor: pointer;
-  color: var(--ink-light);
-  border-radius: 2px;
+  color: #999;
   margin-top: 8px;
   transition: all 0.15s;
 }
-.add-song-btn:hover { border-color: var(--raspberry); color: var(--raspberry); }
+.add-song-btn:hover { border-color: var(--blue); color: var(--blue); }
 
-.form-error {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  color: #c0392b;
-  margin-top: 16px;
-  display: none;
-  letter-spacing: 0.5px;
-}
+.form-error { font-size: 12px; color: #c0392b; margin-top: 16px; display: none; letter-spacing: 0.5px; }
 
 .submit-btn {
   width: 100%;
-  margin-top: 32px;
-  padding: 18px;
-  background: var(--raspberry);
+  margin-top: 36px;
+  padding: 20px;
+  background: var(--blue);
   color: white;
   border: none;
-  font-family: 'Playfair Display', serif;
-  font-size: 20px;
-  font-style: italic;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
   cursor: pointer;
-  letter-spacing: 1px;
-  transition: opacity 0.2s;
+  transition: background 0.2s;
 }
-.submit-btn:hover { opacity: 0.85; }
+.submit-btn:hover { background: var(--blue-mid); }
 
 /* THANK YOU */
-.thankyou-wrap {
-  max-width: 480px;
-  margin: 80px auto;
-  text-align: center;
-  padding: 0 24px;
-}
-
-.big-check {
-  width: 80px;
-  height: 80px;
-  border: 3px solid var(--raspberry);
+.thankyou-wrap { max-width: 480px; margin: 0 auto; padding: 60px 24px; text-align: center; }
+.check-circle {
+  width: 56px; height: 56px;
+  border: 1px solid var(--blue);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 28px;
-  font-size: 36px;
-  color: var(--raspberry);
-  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 32px;
+  font-size: 22px; color: var(--blue);
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
-
-@keyframes popIn {
-  from { transform: scale(0); }
-  to { transform: scale(1); }
-}
-
-.thankyou-wrap .page-title { font-size: 56px; font-style: italic; }
-.thankyou-wrap p {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 300;
-  color: var(--ink-light);
-  line-height: 1.8;
-  margin-bottom: 28px;
-}
-
+@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+.thankyou-wrap p { font-size: 14px; color: #666; line-height: 1.8; margin-bottom: 28px; }
 .text-link {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--ink-light);
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* GIFT PAGE */
-.gift-wrap {
-  max-width: 640px;
-  margin: 40px auto;
-  padding: 0 24px 60px;
-  text-align: center;
-}
-
-.gift-card {
-  background: white;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  padding: 40px 32px;
-  box-shadow: 5px 5px 0 var(--raspberry);
-  margin-bottom: 24px;
-  transform: rotate(-0.5deg);
-}
-
-.gift-card p {
-  font-size: 17px;
-  color: var(--ink-light);
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-
-.gift-btn {
-  display: inline-block;
-  padding: 14px 36px;
-  background: var(--raspberry);
-  color: white;
-  text-decoration: none;
-  font-family: 'Caveat', cursive;
-  font-size: 24px;
-  border-radius: 4px;
-  box-shadow: 4px 4px 0 var(--ink);
-  transition: all 0.15s;
-  border: 2px solid var(--raspberry);
-}
-.gift-btn:hover {
-  box-shadow: none;
-  transform: translate(4px, 4px);
-}
-
-.gift-note {
-  font-family: 'Kalam', cursive;
-  font-size: 14px;
-  color: var(--ink-light);
-  font-style: italic;
-  margin-top: 12px;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: #999; background: none; border: none; cursor: pointer;
+  text-decoration: underline; text-underline-offset: 3px; font-family: 'DM Sans', sans-serif;
 }
 
 /* ADMIN */
-.admin-login-wrap {
-  max-width: 380px;
-  margin: 100px auto;
-  padding: 0 24px;
-  text-align: center;
-}
-
-.admin-wrap {
-  max-width: 780px;
-  margin: 40px auto;
-  padding: 0 24px 60px;
-}
-
-.admin-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 32px;
-  padding-bottom: 20px;
-  border-bottom: 3px solid var(--raspberry);
-}
-
-.back-btn {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  background: none;
-  border: 2px solid var(--ink);
-  padding: 8px 18px;
-  cursor: pointer;
-  border-radius: 3px;
-  color: var(--ink);
-  transition: all 0.15s;
-  box-shadow: 2px 2px 0 var(--ink);
-}
-.back-btn:hover { border-color: var(--raspberry); color: var(--raspberry); box-shadow: 2px 2px 0 var(--raspberry); }
-
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 32px;
-}
-
-.stat-card {
-  background: white;
-  border: 2px solid var(--ink);
-  padding: 18px;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 3px 3px 0 var(--raspberry);
-}
-
-.stat-num {
-  font-family: 'Reenie Beanie', cursive;
-  font-size: 48px;
-  color: var(--raspberry);
-  line-height: 1;
-}
-
-.stat-lbl {
-  font-family: 'Kalam', cursive;
-  font-size: 12px;
-  color: var(--ink-light);
-  margin-top: 4px;
-}
-
-.section-heading {
-  font-family: 'Caveat', cursive;
-  font-size: 26px;
-  color: var(--raspberry);
-  margin-bottom: 14px;
-  margin-top: 28px;
-  font-weight: 700;
-}
-
-.submission-card {
-  background: white;
-  border: 2px solid var(--ink);
-  padding: 22px;
-  margin-bottom: 14px;
-  border-radius: 4px;
-  box-shadow: 3px 3px 0 var(--raspberry);
-}
-
-.submission-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 2px dashed var(--raspberry-pale);
-}
-
-.submission-names {
-  font-family: 'Caveat', cursive;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.submission-time {
-  font-family: 'Kalam', cursive;
-  font-size: 12px;
-  color: var(--ink-light);
-  background: var(--cream-dark);
-  padding: 3px 10px;
-  border-radius: 12px;
-}
-
+.admin-login-wrap { max-width: 380px; margin: 60px auto; padding: 0 24px; text-align: center; }
+.admin-wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; }
+.admin-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid #ddd6cc; }
+.back-btn { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid #c0b8b0; padding: 10px 20px; cursor: pointer; color: #888; transition: all 0.15s; }
+.back-btn:hover { border-color: var(--blue); color: var(--blue); }
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 32px; }
+.stat-card { background: white; border: 1px solid #ddd6cc; padding: 22px; text-align: center; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 42px; color: var(--blue); }
+.stat-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
+.section-heading { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 14px; margin-top: 28px; }
+.food-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.food-tile { background: white; border: 1px solid #ddd6cc; padding: 14px 20px; text-align: center; min-width: 90px; }
+.food-tile-num { font-family: 'Cormorant Garamond', serif; font-size: 30px; color: var(--blue); }
+.food-tile-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
+.submission-card { background: white; border: 1px solid #ddd6cc; padding: 24px; margin-bottom: 12px; }
+.submission-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #ede6d6; }
+.submission-names { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: normal; color: var(--blue); }
+.submission-time { font-size: 10px; letter-spacing: 1px; color: #aaa; background: #f5f0e8; padding: 4px 10px; }
 .guest-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 .guest-row.single { grid-template-columns: 1fr; }
-
-.detail-label {
-  font-family: 'Kalam', cursive;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #aaa;
-  margin-bottom: 3px;
-}
-
-.detail-value {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  color: var(--ink);
-  font-weight: 600;
-}
-
+.detail-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 3px; }
+.detail-value { font-size: 14px; color: var(--blue); }
 .detail-block { margin-bottom: 10px; }
-
 .songs-ul { list-style: none; }
-.songs-ul li::before { content: "♪ "; color: var(--raspberry); }
-.songs-ul li { font-family: 'Kalam', cursive; font-size: 14px; color: var(--ink-light); margin-bottom: 2px; }
-
-.food-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-.food-tile {
-  background: white;
-  border: 2px solid var(--ink);
-  padding: 12px 18px;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 2px 2px 0 var(--raspberry);
-  min-width: 80px;
-}
-.food-tile-num { font-family: 'Reenie Beanie', cursive; font-size: 32px; color: var(--raspberry); }
-.food-tile-lbl { font-family: 'Kalam', cursive; font-size: 11px; color: var(--ink-light); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
-
-.empty-state {
-  text-align: center;
-  padding: 60px 24px;
-  font-family: 'Caveat', cursive;
-  font-size: 22px;
-  color: var(--ink-light);
-}
-
-.clear-btn {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  background: none;
-  border: 2px solid #c0392b;
-  padding: 9px 18px;
-  cursor: pointer;
-  color: #c0392b;
-  border-radius: 3px;
-  margin-top: 28px;
-  transition: all 0.15s;
-}
+.songs-ul li { font-size: 13px; color: #555; margin-bottom: 2px; }
+.songs-ul li::before { content: "♪  "; color: var(--blue); }
+.empty-state { text-align: center; padding: 60px 24px; color: #999; font-size: 13px; }
+.clear-btn { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid #c0392b; padding: 10px 18px; cursor: pointer; color: #c0392b; margin-top: 28px; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
 .clear-btn:hover { background: #c0392b; color: white; }
+.error-msg { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
 
-.error-msg {
-  font-family: 'Caveat', cursive;
-  font-size: 18px;
-  color: #c0392b;
-  margin-top: 10px;
-  display: none;
-}
+/* GIFTS */
+.gift-card { background: white; border: 1px solid #ddd6cc; padding: 40px; margin-bottom: 20px; transform: rotate(-0.3deg); box-shadow: 3px 3px 0 var(--blue); }
+.gift-card p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 20px; }
+.gift-btn { display: inline-block; padding: 14px 32px; background: var(--blue); color: white; text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; transition: background 0.2s; }
+.gift-btn:hover { background: var(--blue-mid); }
+.gift-note { font-size: 12px; color: #aaa; margin-top: 12px; font-style: italic; }
 
+/* INFO */
+.info-card { background: white; border: 1px solid #ddd6cc; padding: 32px; margin-bottom: 16px; }
+.info-card:nth-child(odd) { transform: rotate(-0.2deg); }
+.info-card:nth-child(even) { transform: rotate(0.2deg); }
+.info-card-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: normal; color: var(--blue); margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid #ede6d6; }
+.info-card p { font-size: 14px; color: #555; line-height: 1.8; margin-bottom: 6px; }
+.info-card strong { color: var(--blue); font-weight: 500; }
+.schedule-row { display: flex; gap: 20px; margin-bottom: 10px; }
+.schedule-time { font-size: 10px; letter-spacing: 2px; color: var(--blue); min-width: 50px; margin-top: 3px; text-transform: uppercase; }
+.schedule-event { font-size: 14px; color: #555; }
 
-/* ===== FULLBLEED HOME ===== */
-#home {
-  padding-top: 0 !important;
-}
+/* FOOTER */
+footer { background: var(--blue); padding: 48px; text-align: center; }
+.footer-names { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-style: italic; color: var(--white); margin-bottom: 10px; }
+.footer-date { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--blue); }
 
-.fullbleed {
-  position: relative;
-  width: 100%;
-  height: calc(100vh - 54px);
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-}
-
-.fullbleed-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 35%;
-  filter: grayscale(100%) contrast(1.1);
-}
-
-.fullbleed-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 30%,
-    rgba(0,0,0,0.15) 60%,
-    rgba(0,0,0,0.45) 100%
-  );
-}
-
-.fullbleed-text {
-  position: relative;
-  z-index: 2;
-  padding: 40px 36px;
-  width: 100%;
-}
-
-.fb-names {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(52px, 10vw, 96px);
-  font-weight: 700;
-  color: #c0395a;
-  line-height: 0.95;
-  display: block;
-  letter-spacing: -1px;
-  transform: rotate(-1.5deg);
-  display: inline-block;
-  margin-bottom: 4px;
-}
-
-.fb-date {
-  font-family: 'Caveat', cursive;
-  font-size: clamp(28px, 5vw, 48px);
-  color: #c0395a;
-  font-weight: 600;
-  display: block;
-  transform: rotate(-0.8deg);
-  margin-bottom: 4px;
-}
-
-.fb-venue {
-  font-family: 'Kalam', cursive;
-  font-size: clamp(14px, 2.5vw, 20px);
-  color: rgba(255,255,255,0.85);
-  display: block;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-}
-
-.fb-arrow {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  font-size: 28px;
-  color: rgba(255,255,255,0.6);
-  animation: bounce 2s ease-in-out infinite;
-}
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
-
-/* SVG doodle animations */
-.doodle { animation: wiggle 4s ease-in-out infinite; }
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-2deg); }
-  50% { transform: rotate(2deg); }
-}
-
-/* Responsive */
-@media (max-width: 640px) {
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  nav.scrolled { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: fixed; inset: 0; background: var(--cream); align-items: center; justify-content: center; gap: 32px; z-index: 99; }
+  .nav-links.open li::after { display: none; }
+  .nav-links.open a { font-size: 20px; letter-spacing: 2px; color: var(--blue); }
+  .hero-text { padding: 32px 24px; }
+  .hero-scroll { right: 24px; }
+  .section { padding: 60px 24px; }
   .guests-grid.two-up { grid-template-columns: 1fr; }
   .guest-row { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .names-handwritten { font-size: 64px; }
-  .speech-bubble { display: none; }
-  nav { gap: 16px; }
-  nav a { font-size: 17px; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  footer { padding: 40px 24px; }
+  .admin-top { flex-direction: column; gap: 16px; }
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#home">Home</a>
-  <a href="#rsvp">RSVP</a>
-  <a href="#gifts">Gifts</a>
-  <a href="#info">Info</a>
-</nav>
-
-<!-- ===== HOME ===== -->
-<div id="home" class="page active">
-  <div class="hero-section">
-  <div class="fullbleed">
-    <img src="greece.jpg" alt="Rob & Hanna" class="fullbleed-img" onerror="this.style.display='none';" />
-    <div class="fb-text-block">
-      <div class="fb-names">Rob &amp; Hanna</div>
-      <div class="fb-date">7.11.26</div>
-      <div class="fb-venue">Coin Laundry, London</div>
-    </div>
-    <div class="fb-arrow">↓</div>
+<!-- ENTRANCE -->
+<div id="entrance">
+  <div class="entrance-eyebrow">Rob & Hanna — 7 November 2026</div>
+  <div class="poem">
+    <span class="poem-line">Is it so small a thing</span>
+    <span class="poem-line">To have enjoyed the sun,</span>
+    <span class="poem-line">To have lived light in the spring,</span>
+    <span class="poem-line">To have loved, to have thought, to have done...?</span>
+    <div class="poem-attribution">— Matthew Arnold</div>
   </div>
-  </div>
+  <button class="enter-link" onclick="enterSite()">Enter</button>
 </div>
 
-<!-- ===== RSVP ===== -->
-<div id="rsvp" class="page" style="position:relative;z-index:10;background:var(--cream);">
+<!-- MAIN SITE -->
+<div id="main-site">
 
-  <!-- RSVP FORM -->
-  <div id="rsvp-form-view">
-    <div class="rsvp-wrap">
-      <div class="rsvp-header">
-        <div class="rsvp-eyebrow">7th November 2026 — Coin Laundry, London</div>
-        <div class="page-title">Join us</div>
-        <div class="page-subtitle">Let us know you're coming — and send us your song requests for the dancefloor.</div>
-      </div>
+  <nav id="nav">
+    <span class="nav-brand" onclick="scrollToTop()">Rob & Hanna</span>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#rsvp" onclick="closeNav()">RSVP</a></li>
+      <li><a href="#gifts" onclick="closeNav()">Gifts</a></li>
+      <li><a href="#info" onclick="closeNav()">Info</a></li>
+    </ul>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
+  </nav>
 
-      <div class="party-toggle">
-        <span class="party-label">Party size:</span>
-        <button class="toggle-btn active" onclick="setPartySize(1)">Just me</button>
-        <button class="toggle-btn" onclick="setPartySize(2)">2 guests</button>
-      </div>
+  <!-- HERO -->
+  <div class="hero">
+    <img src="greece.jpg" alt="Rob & Hanna" class="hero-img" onerror="this.style.display='none';" />
+    <div class="hero-text">
+      <span class="hero-names">Rob & Hanna</span>
+      <span class="hero-date">7th November 2026 · Coin Laundry, London</span>
+    </div>
+    <div class="hero-scroll">Scroll ↓</div>
+  </div>
 
-      <div class="guests-grid" id="guests-grid">
+  <!-- RSVP -->
+  <div class="section light" id="rsvp">
+    <div class="section-inner">
 
-        <!-- GUEST 1 -->
-        <div class="guest-card" id="col-g1">
-          <div class="guest-card-title" id="col1-label">Your details</div>
+      <div id="rsvp-form-view">
+        <span class="section-eyebrow">You're invited</span>
+        <h2 class="section-title">Join us</h2>
+        <div class="divider"></div>
+        <p style="font-size:15px;color:#666;line-height:1.8;margin-bottom:36px;">Let us know you're coming — and send us your song requests for the dancefloor.</p>
 
-          <label class="field-label">Full name</label>
-          <input type="text" id="g1-name" placeholder="your name here..." />
-
-          <label class="field-label">Meal choice</label>
-          <div class="pill-grid" id="g1-food-pills">
-            <button class="pill" onclick="selectPill(this,'g1-food')">Chicken</button>
-            <button class="pill" onclick="selectPill(this,'g1-food')">Beef</button>
-            <button class="pill" onclick="selectPill(this,'g1-food')">Salmon</button>
-            <button class="pill" onclick="selectPill(this,'g1-food')">Veggie</button>
-            <button class="pill" onclick="selectPill(this,'g1-food')">Vegan</button>
-          </div>
-
-          <label class="field-label">Star sign</label>
-          <div class="pill-grid" id="g1-star-pills">
-            <button class="pill" onclick="selectPill(this,'g1-star')">♈ Aries</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♉ Taurus</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♊ Gemini</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♋ Cancer</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♌ Leo</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♍ Virgo</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♎ Libra</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♏ Scorpio</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♐ Sagittarius</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♑ Capricorn</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♒ Aquarius</button>
-            <button class="pill" onclick="selectPill(this,'g1-star')">♓ Pisces</button>
-          </div>
-
-          <label class="field-label">Song requests <span style="font-size:9px;letter-spacing:1px;color:#aaa;">(up to 3)</span></label>
-          <div id="g1-songs">
-            <div class="song-row"><input type="text" placeholder="song & artist..." /></div>
-          </div>
-          <button class="add-song-btn" onclick="addSong('g1-songs')">+ add a song</button>
+        <div class="party-toggle">
+          <span class="party-label">Party size</span>
+          <button class="toggle-btn active" onclick="setPartySize(1)">Just me</button>
+          <button class="toggle-btn" onclick="setPartySize(2)">2 guests</button>
         </div>
 
-        <!-- GUEST 2 -->
-        <div class="guest-card hidden" id="col-g2">
-          <div class="guest-card-title">Guest 2</div>
-
-          <label class="field-label">Full name</label>
-          <input type="text" id="g2-name" placeholder="their name here..." />
-
-          <label class="field-label">Meal choice</label>
-          <div class="pill-grid" id="g2-food-pills">
-            <button class="pill" onclick="selectPill(this,'g2-food')">Chicken</button>
-            <button class="pill" onclick="selectPill(this,'g2-food')">Beef</button>
-            <button class="pill" onclick="selectPill(this,'g2-food')">Salmon</button>
-            <button class="pill" onclick="selectPill(this,'g2-food')">Veggie</button>
-            <button class="pill" onclick="selectPill(this,'g2-food')">Vegan</button>
+        <div class="guests-grid" id="guests-grid">
+          <div class="guest-card" id="col-g1">
+            <div class="guest-card-title" id="col1-label">Your details</div>
+            <label class="field-label">Full name</label>
+            <input type="text" id="g1-name" placeholder="your name..." />
+            <label class="field-label">Meal choice</label>
+            <div class="pill-grid" id="g1-food-pills">
+              <button class="pill" onclick="selectPill(this,'g1-food')">Chicken</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Beef</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Salmon</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Vegetarian</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Vegan</button>
+            </div>
+            <label class="field-label">Star sign</label>
+            <div class="pill-grid" id="g1-star-pills">
+              <button class="pill" onclick="selectPill(this,'g1-star')">♈ Aries</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♉ Taurus</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♊ Gemini</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♋ Cancer</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♌ Leo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♍ Virgo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♎ Libra</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♏ Scorpio</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♐ Sagittarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♑ Capricorn</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♒ Aquarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">♓ Pisces</button>
+            </div>
+            <label class="field-label">Song requests <span style="color:#ccc;font-size:9px;">(up to 3)</span></label>
+            <div id="g1-songs"><div class="song-row"><input type="text" placeholder="song & artist..." /></div></div>
+            <button class="add-song-btn" onclick="addSong('g1-songs')">+ Add a song</button>
           </div>
 
-          <label class="field-label">Star sign</label>
-          <div class="pill-grid" id="g2-star-pills">
-            <button class="pill" onclick="selectPill(this,'g2-star')">♈ Aries</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♉ Taurus</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♊ Gemini</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♋ Cancer</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♌ Leo</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♍ Virgo</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♎ Libra</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♏ Scorpio</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♐ Sagittarius</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♑ Capricorn</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♒ Aquarius</button>
-            <button class="pill" onclick="selectPill(this,'g2-star')">♓ Pisces</button>
+          <div class="guest-card hidden" id="col-g2">
+            <div class="guest-card-title">Guest 2</div>
+            <label class="field-label">Full name</label>
+            <input type="text" id="g2-name" placeholder="their name..." />
+            <label class="field-label">Meal choice</label>
+            <div class="pill-grid" id="g2-food-pills">
+              <button class="pill" onclick="selectPill(this,'g2-food')">Chicken</button>
+              <button class="pill" onclick="selectPill(this,'g2-food')">Beef</button>
+              <button class="pill" onclick="selectPill(this,'g2-food')">Salmon</button>
+              <button class="pill" onclick="selectPill(this,'g2-food')">Vegetarian</button>
+              <button class="pill" onclick="selectPill(this,'g2-food')">Vegan</button>
+            </div>
+            <label class="field-label">Star sign</label>
+            <div class="pill-grid" id="g2-star-pills">
+              <button class="pill" onclick="selectPill(this,'g2-star')">♈ Aries</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♉ Taurus</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♊ Gemini</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♋ Cancer</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♌ Leo</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♍ Virgo</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♎ Libra</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♏ Scorpio</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♐ Sagittarius</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♑ Capricorn</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♒ Aquarius</button>
+              <button class="pill" onclick="selectPill(this,'g2-star')">♓ Pisces</button>
+            </div>
+            <label class="field-label">Song requests <span style="color:#ccc;font-size:9px;">(up to 3)</span></label>
+            <div id="g2-songs"><div class="song-row"><input type="text" placeholder="song & artist..." /></div></div>
+            <button class="add-song-btn" onclick="addSong('g2-songs')">+ Add a song</button>
           </div>
-
-          <label class="field-label">Song requests <span style="font-size:9px;letter-spacing:1px;color:#aaa;">(up to 3)</span></label>
-          <div id="g2-songs">
-            <div class="song-row"><input type="text" placeholder="song & artist..." /></div>
-          </div>
-          <button class="add-song-btn" onclick="addSong('g2-songs')">+ add a song</button>
         </div>
 
+        <div class="form-error" id="form-error"></div>
+        <button class="submit-btn" onclick="submitRSVP()">Confirm RSVP</button>
       </div>
 
-      <div class="form-error" id="form-error"></div>
-      <button class="submit-btn" onclick="submitRSVP()">Send RSVP</button>
-    </div>
-  </div>
-
-  <!-- THANK YOU -->
-  <div id="rsvp-thankyou" style="display:none;">
-    <div class="thankyou-wrap">
-      <div class="big-check">✓</div>
-      <div class="page-title">yay!!</div>
-      <p id="thankyou-msg">Your RSVP has been received. We can't wait to celebrate with you!</p>
-      <button class="text-link" onclick="showAdminLogin()">admin view</button>
-    </div>
-  </div>
-
-  <!-- ADMIN LOGIN -->
-  <div id="admin-login" style="display:none;">
-    <div class="admin-login-wrap">
-      <div class="page-title" style="font-size:52px;">admin</div>
-      <label class="field-label" style="display:block;margin-bottom:8px;">password</label>
-      <input type="password" id="admin-password" placeholder="enter password..." onkeydown="if(event.key==='Enter')checkPassword()" />
-      <div id="password-error" class="error-msg">nope, try again!</div>
-      <button class="submit-btn" style="margin-top:20px;" onclick="checkPassword()">enter →</button>
-      <br><br>
-      <button class="text-link" onclick="showRSVPForm()">← back</button>
-    </div>
-  </div>
-
-  <!-- ADMIN VIEW -->
-  <div id="admin-view" style="display:none;">
-    <div class="admin-wrap">
-      <div class="admin-top">
-        <div>
-          <div style="font-family:'Kalam',cursive;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--ink-light);margin-bottom:6px;">admin panel</div>
-          <div class="page-title" style="font-size:52px;">Guest List</div>
+      <div id="rsvp-thankyou" style="display:none;">
+        <div class="thankyou-wrap">
+          <div class="check-circle">✓</div>
+          <h2 class="section-title" style="color:var(--blue);">Thank you</h2>
+          <p id="thankyou-msg">Your RSVP has been received.</p>
+          <button class="text-link" onclick="showAdminLogin()">Admin view</button>
         </div>
-        <button class="back-btn" onclick="showRSVPForm()">← back to rsvp</button>
       </div>
 
-      <div class="stats-row">
-        <div class="stat-card"><div class="stat-num" id="stat-submissions">0</div><div class="stat-lbl">Submissions</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-guests">0</div><div class="stat-lbl">Total Guests</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-songs">0</div><div class="stat-lbl">Song Requests</div></div>
-        <div class="stat-card"><div class="stat-num" id="stat-topsign">—</div><div class="stat-lbl">Top Star Sign</div></div>
+      <div id="admin-login" style="display:none;">
+        <div class="admin-login-wrap">
+          <span class="section-eyebrow">Admin</span>
+          <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
+          <div class="divider"></div>
+          <label class="field-label">Password</label>
+          <input type="password" id="admin-password" placeholder="enter password..." onkeydown="if(event.key==='Enter')checkPassword()" />
+          <div id="password-error" class="error-msg">Incorrect password.</div>
+          <button class="submit-btn" style="margin-top:20px;" onclick="checkPassword()">Enter</button>
+          <br><br>
+          <button class="text-link" onclick="showRSVPForm()">← Back</button>
+        </div>
       </div>
 
-      <div id="food-summary"></div>
+      <div id="admin-view" style="display:none;">
+        <div class="admin-wrap">
+          <div class="admin-top">
+            <div>
+              <span class="section-eyebrow">Admin</span>
+              <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
+            </div>
+            <button class="back-btn" onclick="showRSVPForm()">← Back to RSVP</button>
+          </div>
+          <div class="stats-row">
+            <div class="stat-card"><div class="stat-num" id="stat-submissions">0</div><div class="stat-lbl">Submissions</div></div>
+            <div class="stat-card"><div class="stat-num" id="stat-guests">0</div><div class="stat-lbl">Total Guests</div></div>
+            <div class="stat-card"><div class="stat-num" id="stat-songs">0</div><div class="stat-lbl">Song Requests</div></div>
+            <div class="stat-card"><div class="stat-num" id="stat-topsign">—</div><div class="stat-lbl">Top Star Sign</div></div>
+          </div>
+          <div id="food-summary"></div>
+          <div class="section-heading">All responses</div>
+          <div id="guest-list"></div>
+          <button class="clear-btn" onclick="clearData()">Clear all responses</button>
+        </div>
+      </div>
 
-      <div class="section-heading">all responses</div>
-      <div id="guest-list"></div>
-      <button class="clear-btn" onclick="clearData()">🗑 clear all responses</button>
     </div>
   </div>
 
-</div>
-
-<!-- ===== GIFTS ===== -->
-<div id="gifts" class="page" style="position:relative;z-index:10;background:var(--cream);">
-  <div class="gift-wrap">
-    <div class="page-title">Gifts 🎁</div>
-    <br>
-    <div class="gift-card">
-      <p>Your presence at our wedding is the greatest gift of all — but if you'd like to give us something, we've put together a wish list on Prezola.</p>
-      <p>We've included a mix of things for our home, experiences, and contributions toward our honeymoon in Thailand and Western Australia 🌏</p>
-      <a href="https://www.prezola.com" target="_blank" class="gift-btn">View our gift list →</a>
-      <div class="gift-note">(link will be updated with our full Prezola registry soon)</div>
-    </div>
-
-    <div class="gift-card" style="transform:rotate(0.4deg);margin-top:20px;">
-      <p style="font-size:15px;">Prefer to give cash? We're also very happy to receive contributions directly — just let us know!</p>
+  <!-- GIFTS -->
+  <div class="section dark" id="gifts">
+    <div class="section-inner">
+      <span class="section-eyebrow">Gifts</span>
+      <h2 class="section-title">Gift list</h2>
+      <div class="divider"></div>
+      <div class="gift-card">
+        <p>Your presence at our wedding is the greatest gift of all — but if you'd like to give us something, we've put together a wish list on Prezola.</p>
+        <p>We've included things for our home, experiences, and contributions toward our honeymoon in Thailand and Western Australia.</p>
+        <a href="https://www.prezola.com" target="_blank" class="gift-btn">View our gift list →</a>
+        <div class="gift-note">Link will be updated with our full registry soon.</div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ===== INFO ===== -->
-<div id="info" class="page" style="position:relative;z-index:10;background:var(--cream);">
-  <div class="info-wrap">
-    <div class="page-title" style="text-align:center;margin-bottom:32px;">Info 📋</div>
+  <!-- INFO -->
+  <div class="section light" id="info">
+    <div class="section-inner">
+      <span class="section-eyebrow">The details</span>
+      <h2 class="section-title">On the day</h2>
+      <div class="divider"></div>
 
-    <div class="info-card">
-      <div class="info-card-title">📍 The Venue</div>
-      <p><strong>Coin Laundry</strong><br>70 Exmouth Market<br>London, EC1R 4QP</p>
-      <p>Nearest tube: <strong>Farringdon</strong> (5 min walk) or <strong>Angel</strong> (10 min walk)</p>
-    </div>
-
-    <div class="info-card">
-      <div class="info-card-title">🕐 On the Day</div>
-      <div class="schedule-row">
-        <div class="schedule-time">TBC</div>
-        <div class="schedule-event">Guests arrive & drinks reception</div>
+      <div class="info-card">
+        <div class="info-card-title">The Venue</div>
+        <p><strong>Coin Laundry</strong><br>70 Exmouth Market, London EC1R 4QP</p>
+        <p>Nearest tube: <strong>Farringdon</strong> (5 min walk) or <strong>Angel</strong> (10 min walk)</p>
       </div>
-      <div class="schedule-row">
-        <div class="schedule-time">TBC</div>
-        <div class="schedule-event">Ceremony</div>
-      </div>
-      <div class="schedule-row">
-        <div class="schedule-time">TBC</div>
-        <div class="schedule-event">Wedding breakfast</div>
-      </div>
-      <div class="schedule-row">
-        <div class="schedule-time">TBC</div>
-        <div class="schedule-event">Speeches & cake</div>
-      </div>
-      <div class="schedule-row">
-        <div class="schedule-time">TBC</div>
-        <div class="schedule-event">Evening reception & dancing 🎉</div>
-      </div>
-      <p style="margin-top:12px;font-size:14px;color:#aaa;">Full timings to follow closer to the date!</p>
-    </div>
 
-    <div class="info-card">
-      <div class="info-card-title">🏨 Where to Stay</div>
-      <p>Exmouth Market is brilliantly central — there are loads of great hotels nearby in Clerkenwell, Islington, and the City.</p>
-      <p>We'll add some recommendations soon!</p>
-    </div>
+      <div class="info-card">
+        <div class="info-card-title">Schedule</div>
+        <div class="schedule-row"><div class="schedule-time">TBC</div><div class="schedule-event">Guests arrive & drinks reception</div></div>
+        <div class="schedule-row"><div class="schedule-time">TBC</div><div class="schedule-event">Ceremony</div></div>
+        <div class="schedule-row"><div class="schedule-time">TBC</div><div class="schedule-event">Wedding breakfast</div></div>
+        <div class="schedule-row"><div class="schedule-time">TBC</div><div class="schedule-event">Speeches & cake</div></div>
+        <div class="schedule-row"><div class="schedule-time">TBC</div><div class="schedule-event">Evening reception & dancing</div></div>
+        <p style="margin-top:14px;font-size:13px;color:#aaa;">Full timings to follow closer to the date.</p>
+      </div>
 
-    <div class="info-card">
-      <div class="info-card-title">👗 Dress Code</div>
-      <p>Smart casual — come looking fabulous but comfortable. It's a pub wedding so leave the ballgown at home! 😄</p>
-    </div>
+      <div class="info-card">
+        <div class="info-card-title">Dress Code</div>
+        <p>Smart casual — come looking fabulous but comfortable. It's a pub wedding so leave the ballgown at home!</p>
+      </div>
 
-    <div class="info-card">
-      <div class="info-card-title">💬 Questions?</div>
-      <p>Drop us a message and we'll get back to you!</p>
-    </div>
+      <div class="info-card">
+        <div class="info-card-title">Where to Stay</div>
+        <p>Exmouth Market is brilliantly central. There are loads of great hotels nearby in Clerkenwell, Islington, and the City. We'll add recommendations soon.</p>
+      </div>
 
+      <div class="info-card">
+        <div class="info-card-title">Questions?</div>
+        <p>Drop us a message and we'll get back to you.</p>
+      </div>
+    </div>
   </div>
+
+  <footer>
+    <div class="footer-names">Rob & Hanna</div>
+    <div class="footer-date">7 · XI · MMXXVI · London</div>
+  </footer>
+
 </div>
 
 <script>
-// ===== AIRTABLE CONFIG =====
-// Replace these with your actual Airtable details
-const AIRTABLE_API_KEY = 'YOUR_AIRTABLE_API_KEY';
-const AIRTABLE_BASE_ID = 'YOUR_BASE_ID';
-const AIRTABLE_TABLE = 'RSVPs';
-
 const ADMIN_PASS = 'robhanna2026';
-
-let submissions = JSON.parse(localStorage.getItem('rh_rsvp_v4') || '[]');
+let submissions = JSON.parse(localStorage.getItem('rh_rsvp_v5') || '[]');
 let sel = { 'g1-food':'', 'g1-star':'', 'g2-food':'', 'g2-star':'' };
 let partySize = 1;
 
-// ===== PAGE NAVIGATION =====
-// Smooth scroll nav
-document.querySelectorAll('nav a').forEach(a => {
-  a.addEventListener('click', function(e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
-// ===== COUNTDOWN =====
-function updateCountdown() {
-  const wedding = new Date('2026-11-07T14:00:00');
-  const now = new Date();
-  const diff = wedding - now;
-  if (diff <= 0) return;
-  const days = Math.floor(diff / 86400000);
-  const hours = Math.floor((diff % 86400000) / 3600000);
-  const mins = Math.floor((diff % 3600000) / 60000);
-  const secs = Math.floor((diff % 60000) / 1000);
-  const dEl = document.getElementById('cd-days');
-  const hEl = document.getElementById('cd-hours');
-  const mEl = document.getElementById('cd-mins');
-  const sEl = document.getElementById('cd-secs');
-  if (dEl) dEl.textContent = days;
-  if (hEl) hEl.textContent = hours;
-  if (mEl) mEl.textContent = mins;
-  if (sEl) sEl.textContent = secs;
+function enterSite() {
+  const entrance = document.getElementById('entrance');
+  const main = document.getElementById('main-site');
+  entrance.classList.add('fade-out');
+  setTimeout(() => { entrance.style.display = 'none'; main.classList.add('visible'); }, 800);
 }
-updateCountdown();
-setInterval(updateCountdown, 1000);
 
-// Nav scroll behaviour
+function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function toggleNav() { document.getElementById('nav-links').classList.toggle('open'); }
+function closeNav() { document.getElementById('nav-links').classList.remove('open'); }
+
 window.addEventListener('scroll', () => {
-  const nav = document.querySelector('nav');
-  if (window.scrollY > window.innerHeight * 0.85) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 80);
 });
 
-// ===== RSVP FORM =====
 function setPartySize(n) {
   partySize = n;
   document.querySelectorAll('.toggle-btn').forEach((b,i) => b.classList.toggle('active', i===n-1));
@@ -1325,84 +768,33 @@ function showError(msg) {
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-async function submitRSVP() {
+function submitRSVP() {
   document.getElementById('form-error').style.display = 'none';
-  const g1 = {
-    name: document.getElementById('g1-name').value.trim(),
-    food: sel['g1-food'], star: sel['g1-star'],
-    songs: getSongs('g1-songs')
-  };
+  const g1 = { name: document.getElementById('g1-name').value.trim(), food: sel['g1-food'], star: sel['g1-star'], songs: getSongs('g1-songs') };
   if (!g1.name) { showError('Please enter your name.'); return; }
   if (!g1.food) { showError('Please choose a meal for guest 1.'); return; }
   if (!g1.star) { showError('Please choose a star sign for guest 1.'); return; }
-
   const guests = [g1];
   if (partySize === 2) {
-    const g2 = {
-      name: document.getElementById('g2-name').value.trim(),
-      food: sel['g2-food'], star: sel['g2-star'],
-      songs: getSongs('g2-songs')
-    };
+    const g2 = { name: document.getElementById('g2-name').value.trim(), food: sel['g2-food'], star: sel['g2-star'], songs: getSongs('g2-songs') };
     if (!g2.name) { showError('Please enter a name for guest 2.'); return; }
     if (!g2.food) { showError('Please choose a meal for guest 2.'); return; }
     if (!g2.star) { showError('Please choose a star sign for guest 2.'); return; }
     guests.push(g2);
   }
-
-  const entry = {
-    id: Date.now(),
-    guests,
-    submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
-  };
-
-  // Save locally
+  const entry = { id: Date.now(), guests, submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) };
   submissions.push(entry);
-  localStorage.setItem('rh_rsvp_v4', JSON.stringify(submissions));
-
-  // Send to Airtable if configured
-  if (AIRTABLE_API_KEY !== 'YOUR_AIRTABLE_API_KEY') {
-    try {
-      for (const g of guests) {
-        await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE)}`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            fields: {
-              'Name': g.name,
-              'Meal': g.food,
-              'Star Sign': g.star,
-              'Songs': g.songs.join(', '),
-              'Party': guests.map(x=>x.name).join(' & '),
-              'Submitted': entry.submitted
-            }
-          })
-        });
-      }
-    } catch(e) {
-      console.log('Airtable error:', e);
-    }
-  }
-
-  // Thank you
+  localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
   const firstNames = guests.map(g => g.name.split(' ')[0]).join(' & ');
-  document.getElementById('thankyou-msg').textContent =
-    `thank you, ${firstNames}! 🎉 we're so excited to celebrate with you on 7th November 2026!`;
-
-  // Reset form
+  document.getElementById('thankyou-msg').textContent = `Thank you, ${firstNames}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
   ['g1-name','g2-name'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-  ['g1-songs','g2-songs'].forEach(id => {
-    document.getElementById(id).innerHTML = '<div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div>';
-  });
+  ['g1-songs','g2-songs'].forEach(id => { document.getElementById(id).innerHTML = '<div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div>'; });
   sel = { 'g1-food':'', 'g1-star':'', 'g2-food':'', 'g2-star':'' };
   setPartySize(1);
-
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
-  document.getElementById('rsvp').scrollIntoView({behavior:'smooth'});
+  document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
 }
 
 function showRSVPForm() {
@@ -1434,48 +826,37 @@ function renderAdmin() {
   document.getElementById('stat-submissions').textContent = submissions.length;
   document.getElementById('stat-guests').textContent = allGuests.length;
   document.getElementById('stat-songs').textContent = allGuests.reduce((a,g)=>a+g.songs.length,0);
-
   const signCounts = {};
-  allGuests.forEach(g => signCounts[g.star] = (signCounts[g.star]||0)+1);
+  allGuests.forEach(g => signCounts[g.star]=(signCounts[g.star]||0)+1);
   const top = Object.entries(signCounts).sort((a,b)=>b[1]-a[1])[0];
   document.getElementById('stat-topsign').textContent = top ? top[0].replace(/^\S+\s/,'') : '—';
-
   const foodCounts = {};
-  allGuests.forEach(g => { const f = g.food.replace(/^\S+\s/,''); foodCounts[f]=(foodCounts[f]||0)+1; });
+  allGuests.forEach(g => { foodCounts[g.food]=(foodCounts[g.food]||0)+1; });
   document.getElementById('food-summary').innerHTML = Object.keys(foodCounts).length ? `
-    <div class="section-heading">meal breakdown</div>
-    <div class="food-grid">${Object.entries(foodCounts).map(([f,c])=>`
-      <div class="food-tile"><div class="food-tile-num">${c}</div><div class="food-tile-lbl">${f}</div></div>`).join('')}</div>` : '';
-
+    <div class="section-heading">Meal breakdown</div>
+    <div class="food-grid">${Object.entries(foodCounts).map(([f,c])=>`<div class="food-tile"><div class="food-tile-num">${c}</div><div class="food-tile-lbl">${f}</div></div>`).join('')}</div>` : '';
   const list = document.getElementById('guest-list');
-  if (!submissions.length) {
-    list.innerHTML = '<div class="empty-state">no responses yet — share the link with your guests! 💌</div>';
-    return;
-  }
-
+  if (!submissions.length) { list.innerHTML = '<div class="empty-state">No responses yet.</div>'; return; }
   list.innerHTML = submissions.slice().reverse().map(s => {
     const names = s.guests.map(g=>g.name).join(' & ');
     const blocks = s.guests.map(g=>`
       <div>
-        <div style="font-family:'Caveat',cursive;font-size:20px;font-weight:700;margin-bottom:10px;">${g.name}</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--blue);margin-bottom:10px;">${g.name}</div>
         <div class="detail-block"><div class="detail-label">Meal</div><div class="detail-value">${g.food}</div></div>
         <div class="detail-block"><div class="detail-label">Star Sign</div><div class="detail-value">${g.star}</div></div>
         ${g.songs.length?`<div class="detail-block"><div class="detail-label">Songs</div><ul class="songs-ul">${g.songs.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
       </div>`).join('');
     return `<div class="submission-card">
-      <div class="submission-header">
-        <div class="submission-names">${names}</div>
-        <div class="submission-time">${s.submitted}</div>
-      </div>
+      <div class="submission-header"><div class="submission-names">${names}</div><div class="submission-time">${s.submitted}</div></div>
       <div class="guest-row ${s.guests.length===1?'single':''}">${blocks}</div>
     </div>`;
   }).join('');
 }
 
 function clearData() {
-  if (confirm('delete all responses? this cannot be undone!')) {
+  if (confirm('Delete all responses? This cannot be undone.')) {
     submissions = [];
-    localStorage.removeItem('rh_rsvp_v4');
+    localStorage.removeItem('rh_rsvp_v5');
     renderAdmin();
   }
 }
