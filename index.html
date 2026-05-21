@@ -977,6 +977,27 @@ function setAttendance(attending) {
   }
 }
 
+async function sendRSVP(guest) {
+  try {
+    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          'Name': guest.name,
+          'Attending': guest.attending,
+          'Meal': guest.food,
+          'Star Sign': guest.star,
+          'Song Requests': guest.song
+        }
+      })
+    });
+  } catch(e) { console.error('Airtable error:', e); }
+}
+
 async function submitNo() {
   const name = document.getElementById('no-name').value.trim();
   const err = document.getElementById('no-error');
@@ -985,59 +1006,18 @@ async function submitNo() {
   // Send to Airtable
   setButtonLoading('submit-no-btn', true, 'Send');
   try {
-    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fields: {
-            'Name': guest.name,
-            'Attending': guest.attending,
-            'Meal': guest.food,
-            'Star Sign': guest.star,
-            'Song Requests': guest.song
-          }
-        })
-      });
-
-  } catch(e) { console.log('Airtable error:', e); }
+    await sendRSVP(guest);
+  } catch(e) { console.error('Airtable error:', e); }
   finally { setButtonLoading('submit-no-btn', false, 'Send'); }
   document.getElementById('thankyou-msg').textContent = 'Sorry you can\'t make it, ' + name + '. We\'ll miss you!';
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
 }
 
-function selectStarDrop(el, group) {
-  sel[group] = el.value;
-}
-
-function selectStar(el, group) {
-  document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  sel[group] = el.textContent.trim();
-  const display = document.getElementById(group.replace('-star', '-star-display'));
-  if (display) display.textContent = el.textContent.trim();
-}
-
 function selectPill(el, group) {
   document.querySelectorAll('#' + group + '-pills .pill').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
   sel[group] = el.textContent.trim();
-}
-
-function addSong(cid) {
-  const c = document.getElementById(cid);
-  if (c.children.length >= 3) return;
-  const r = document.createElement('div');
-  r.className = 'song-row';
-  r.innerHTML = '<input type="text" placeholder="song & artist..." />';
-  c.appendChild(r);
-}
-
-function getSongs(cid) {
-  return [...document.querySelectorAll('#'+cid+' input')].map(i=>i.value.trim()).filter(Boolean);
 }
 
 function showError(msg) {
@@ -1057,11 +1037,13 @@ function setButtonLoading(buttonId, isLoading, defaultText) {
 
 async function submitRSVP() {
   document.getElementById('form-error').style.display = 'none';
+  const guestNameEl = document.getElementById('g1-name');
   const guest = { 
-    name: document.getElementById('g1-name').value.trim(), 
+    name: guestNameEl.value.trim(), 
     food: sel['g1-food'], 
     star: sel['g1-star'], 
-    song: document.querySelector('#g1-song input').value.trim()
+    song: document.querySelector('#g1-song input').value.trim(),
+    attending: true
   };
   if (!guest.name) { showError('Please enter your name.'); return; }
   if (!guest.food) { showError('Please choose a meal.'); return; }
@@ -1070,30 +1052,11 @@ async function submitRSVP() {
   // Send to Airtable
   setButtonLoading('submit-rsvp-btn', true, 'Confirm RSVP');
   try {
-    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        fields: {
-          'Name': guest.name,
-          'Attending': true,
-          'Meal': guest.food,
-          'Star Sign': guest.star,
-          'Song Requests': guest.song
-        }
-      })
-    });
-  } catch(e) { console.log('Airtable error:', e); }
+    await sendRSVP(guest);
+  } catch(e) { console.error('Airtable error:', e); }
   finally { setButtonLoading('submit-rsvp-btn', false, 'Confirm RSVP'); }
-  const firstNames = guest.name.split(' ')[0];
-  document.getElementById('thankyou-msg').textContent = `Thank you, ${firstNames}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
-  ['g1-name'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-  ['g1-song'].forEach(id => { document.getElementById(id).innerHTML = '<div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div>'; });
-  sel = { 'g1-food':'', 'g1-star':'' };
+  const firstName = guest.name.split(' ')[0];
+  document.getElementById('thankyou-msg').textContent = `Thank you, ${firstName}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
 
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
