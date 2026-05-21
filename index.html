@@ -814,7 +814,20 @@ footer { background: var(--blue); padding: 48px;  }
               <button class="pill" onclick="selectPill(this,'g1-food')">Vegan</button>
             </div>
             <label class="field-label">Star sign</label>
-            <input type="text" id="g1-star-text" placeholder="e.g. Scorpio..." oninput="sel['g1-star']=this.value" />
+            <div class="pill-grid" id="g1-star-pills">
+              <button class="pill" onclick="selectPill(this,'g1-star')">Aries</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Taurus</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Gemini</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Cancer</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Leo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Virgo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Libra</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Scorpio</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Sagittarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Capricorn</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Aquarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Pisces</button>
+            </div>
             <label class="field-label">Song request</label>
             <div id="g1-song"><div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div></div>
           </div>
