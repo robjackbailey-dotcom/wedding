@@ -800,10 +800,15 @@ footer { background: var(--blue); padding: 48px;  }
 
         <!-- NO - just name -->
         <div id="no-rsvp-block" style="display:none;">
-          <label class="field-label">Your name</label>
-          <input type="text" id="no-name" placeholder="your name..." />
-          <div class="form-error" id="no-error"></div>
-          <button class="submit-btn" id="submit-no-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
+          <div class="guests-grid">
+            <div class="guest-card">
+              <div class="guest-card-title">Your details</div>
+              <label class="field-label">Full name</label>
+              <input type="text" id="no-name" placeholder="your name..." />
+              <div class="form-error" id="no-error"></div>
+              <button class="submit-btn" id="submit-no-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
+            </div>
+          </div>
         </div>
 
         <!-- YES - full form -->
