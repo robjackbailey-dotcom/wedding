@@ -645,39 +645,7 @@ input::placeholder { color: #ccc; }
   text-decoration: underline; text-underline-offset: 3px; font-family: 'DM Sans', sans-serif;
 }
 
-/* ADMIN */
-.admin-login-wrap { max-width: 380px; margin: 60px auto; padding: 0 24px;  }
-.admin-wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; }
-.admin-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid rgba(43,53,175,0.1); }
-.back-btn { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid rgba(43,53,175,0.15); padding: 10px 20px; cursor: pointer; color: #888; transition: all 0.15s; }
-.back-btn:hover { border-color: var(--blue); color: var(--blue); }
-.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 32px; }
-.stat-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 22px;  }
-.stat-num { font-family: 'DM Sans', sans-serif; font-size: 36px;
-  font-weight: 700; color: var(--blue); }
-.stat-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
-.section-heading { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 14px; margin-top: 28px; }
-.food-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-.food-tile { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 14px 20px;  min-width: 90px; }
-.food-tile-num { font-family: 'DM Sans', sans-serif; font-size: 30px; color: var(--blue); }
-.food-tile-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
-.submission-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 24px; margin-bottom: 12px; }
-.submission-header { display: flex; justify-content: space-between;  margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(43,53,175,0.1); }
-.submission-names { font-family: 'DM Sans', sans-serif; font-size: 20px; font-style: normal;
-  font-weight: 700; color: var(--blue); }
-.submission-time { font-size: 10px; letter-spacing: 1px; color: #aaa; background: #f7f8fc; padding: 4px 10px; }
-.guest-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.guest-row.single { grid-template-columns: 1fr; }
-.detail-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 3px; }
-.detail-value { font-size: 14px; color: var(--blue); }
-.detail-block { margin-bottom: 10px; }
-.songs-ul { list-style: none; }
-.songs-ul li { font-size: 13px; color: #555; margin-bottom: 2px; }
-.songs-ul li::before { content: "♪  "; color: var(--blue); }
-.empty-state {  padding: 60px 24px; color: #999; font-size: 13px; }
-.clear-btn { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid #c0392b; padding: 10px 18px; cursor: pointer; color: #c0392b; margin-top: 28px; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-.clear-btn:hover { background: #c0392b; color: white; }
-.error-msg { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
+
 
 /* GIFTS */
 .gift-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 40px; margin-bottom: 20px; transform: rotate(-0.3deg); box-shadow: 3px 3px 0 var(--pink); }
@@ -718,10 +686,7 @@ footer { background: var(--blue); padding: 48px;  }
   .hero-scroll { right: 24px; }
   .section { padding: 60px 24px; }
   .guests-grid.two-up { grid-template-columns: 1fr; }
-  .guest-row { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2,1fr); }
   footer { padding: 40px 24px; }
-  .admin-top { flex-direction: column; gap: 16px; }
 }
 
 .alt-timeline { position: relative; padding: 12px 0 8px; margin-top: 8px; }
@@ -884,45 +849,10 @@ footer { background: var(--blue); padding: 48px;  }
           <div class="check-circle">✓</div>
           <h2 class="section-title" style="color:var(--blue);">Thank you</h2>
           <p id="thankyou-msg">Your RSVP has been received.</p>
-          <button class="text-link" onclick="showAdminLogin()">Admin view</button>
         </div>
       </div>
 
-      <div id="admin-login" style="display:none;">
-        <div class="admin-login-wrap">
-          <span class="section-eyebrow">Admin</span>
-          <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
-          <div class="divider"></div>
-          <label class="field-label">Password</label>
-          <input type="password" id="admin-password" placeholder="enter password..." onkeydown="if(event.key==='Enter')checkPassword()" />
-          <div id="password-error" class="error-msg">Incorrect password.</div>
-          <button class="submit-btn" style="margin-top:20px;" onclick="checkPassword()">Enter</button>
-          <br><br>
-          <button class="text-link" onclick="showRSVPForm()">← Back</button>
-        </div>
-      </div>
 
-      <div id="admin-view" style="display:none;">
-        <div class="admin-wrap">
-          <div class="admin-top">
-            <div>
-              <span class="section-eyebrow">Admin</span>
-              <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
-            </div>
-            <button class="back-btn" onclick="showRSVPForm()">← Back to RSVP</button>
-          </div>
-          <div class="stats-row">
-            <div class="stat-card"><div class="stat-num" id="stat-submissions">0</div><div class="stat-lbl">Submissions</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-guests">0</div><div class="stat-lbl">Total Guests</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-songs">0</div><div class="stat-lbl">Song Requests</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-topsign">—</div><div class="stat-lbl">Top Star Sign</div></div>
-          </div>
-          <div id="food-summary"></div>
-          <div class="section-heading">All responses</div>
-          <div id="guest-list"></div>
-          <button class="clear-btn" onclick="clearData()">Clear all responses</button>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -989,11 +919,9 @@ footer { background: var(--blue); padding: 48px;  }
 </div>
 
 <script>
-const ADMIN_PASS = 'robhanna2026';
 const AIRTABLE_TOKEN = 'patiCIKCW0aKJB94d.33191334acd3e52f1bbf4f1eaabd4493602298d2e0781f370b9f0f2f81c6bb0b';
 const AIRTABLE_BASE = 'appkOCg0RLlb00Xfj';
 const AIRTABLE_TABLE = 'tblPMSALr4iopXark';
-let submissions = JSON.parse(localStorage.getItem('rh_rsvp_v5') || '[]');
 let sel = { 'g1-food':'', 'g1-star':'', 'g2-food':'', 'g2-star':'' };
 let partySize = 1;
 
@@ -1048,9 +976,6 @@ async function submitNo() {
   const err = document.getElementById('no-error');
   if (!name) { err.textContent = 'Please enter your name.'; err.style.display = 'block'; return; }
   const entry = { id: Date.now(), guests: [{ name, food: 'N/A', star: 'N/A', songs: [], attending: false }], submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) };
-  submissions.push(entry);
-  localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
-
   // Send to Airtable
   setButtonLoading('submit-no-btn', true, 'Send');
   try {
@@ -1150,8 +1075,6 @@ async function submitRSVP() {
     guests.push(g2);
   }
   const entry = { id: Date.now(), guests, submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) };
-  submissions.push(entry);
-  localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
 
   // Send to Airtable
   setButtonLoading('submit-rsvp-btn', true, 'Confirm RSVP');
@@ -1192,65 +1115,6 @@ async function submitRSVP() {
 function showRSVPForm() {
   document.getElementById('rsvp-form-view').style.display = 'block';
   document.getElementById('rsvp-thankyou').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'none';
-  document.getElementById('admin-view').style.display = 'none';
-}
-
-function showAdminLogin() {
-  document.getElementById('rsvp-thankyou').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'block';
-}
-
-function checkPassword() {
-  document.getElementById('password-error').style.display = 'none';
-  if (document.getElementById('admin-password').value === ADMIN_PASS) {
-    document.getElementById('admin-password').value = '';
-    document.getElementById('admin-login').style.display = 'none';
-    renderAdmin();
-    document.getElementById('admin-view').style.display = 'block';
-  } else {
-    document.getElementById('password-error').style.display = 'block';
-  }
-}
-
-function renderAdmin() {
-  const allGuests = submissions.flatMap(s => s.guests);
-  document.getElementById('stat-submissions').textContent = submissions.length;
-  document.getElementById('stat-guests').textContent = allGuests.length;
-  document.getElementById('stat-songs').textContent = allGuests.reduce((a,g)=>a+g.songs.length,0);
-  const signCounts = {};
-  allGuests.forEach(g => signCounts[g.star]=(signCounts[g.star]||0)+1);
-  const top = Object.entries(signCounts).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('stat-topsign').textContent = top ? top[0].replace(/^\S+\s/,'') : '—';
-  const foodCounts = {};
-  allGuests.forEach(g => { foodCounts[g.food]=(foodCounts[g.food]||0)+1; });
-  document.getElementById('food-summary').innerHTML = Object.keys(foodCounts).length ? `
-    <div class="section-heading">Meal breakdown</div>
-    <div class="food-grid">${Object.entries(foodCounts).map(([f,c])=>`<div class="food-tile"><div class="food-tile-num">${c}</div><div class="food-tile-lbl">${f}</div></div>`).join('')}</div>` : '';
-  const list = document.getElementById('guest-list');
-  if (!submissions.length) { list.innerHTML = '<div class="empty-state">No responses yet.</div>'; return; }
-  list.innerHTML = submissions.slice().reverse().map(s => {
-    const names = s.guests.map(g=>g.name).join(' & ');
-    const blocks = s.guests.map(g=>`
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--blue);margin-bottom:10px;">${g.name}</div>
-        <div class="detail-block"><div class="detail-label">Meal</div><div class="detail-value">${g.food}</div></div>
-        <div class="detail-block"><div class="detail-label">Star Sign</div><div class="detail-value">${g.star}</div></div>
-        ${g.songs.length?`<div class="detail-block"><div class="detail-label">Songs</div><ul class="songs-ul">${g.songs.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
-      </div>`).join('');
-    return `<div class="submission-card">
-      <div class="submission-header"><div class="submission-names">${names}</div><div class="submission-time">${s.submitted}</div></div>
-      <div class="guest-row ${s.guests.length===1?'single':''}">${blocks}</div>
-    </div>`;
-  }).join('');
-}
-
-function clearData() {
-  if (confirm('Delete all responses? This cannot be undone.')) {
-    submissions = [];
-    localStorage.removeItem('rh_rsvp_v5');
-    renderAdmin();
-  }
 }
 </script>
 </body>
