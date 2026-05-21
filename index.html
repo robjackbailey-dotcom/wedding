@@ -106,6 +106,14 @@ body {
 
 .hero-nav a:hover { opacity: 0.6; }
 
+a:focus-visible,
+button:focus-visible,
+input[type="text"]:focus-visible,
+input[type="password"]:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
 /* ENTRANCE */
 #entrance {
   position: fixed;
@@ -822,7 +830,7 @@ footer { background: var(--blue); padding: 48px;  }
           <label class="field-label">Your name</label>
           <input type="text" id="no-name" placeholder="your name..." />
           <div class="form-error" id="no-error"></div>
-          <button class="submit-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
+          <button class="submit-btn" id="submit-no-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
         </div>
 
         <!-- YES - full form -->
@@ -867,7 +875,7 @@ footer { background: var(--blue); padding: 48px;  }
         </div>
 
         <div class="form-error" id="form-error"></div>
-        <button class="submit-btn" onclick="submitRSVP()">Confirm RSVP</button>
+        <button class="submit-btn" id="submit-rsvp-btn" onclick="submitRSVP()">Confirm RSVP</button>
         </div><!-- /yes-rsvp-block -->
       </div>
 
@@ -1044,8 +1052,9 @@ async function submitNo() {
   localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
 
   // Send to Airtable
+  setButtonLoading('submit-no-btn', true, 'Send');
   try {
-    for (const g of guests) {
+    for (const g of entry.guests) {
       await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
         method: 'POST',
         headers: {
@@ -1055,7 +1064,7 @@ async function submitNo() {
         body: JSON.stringify({
           fields: {
             'Name': g.name,
-            'Attending': true,
+            'Attending': false,
             'Meal': g.food,
             'Star Sign': g.star,
             'Songs': g.songs.join(', '),
@@ -1065,6 +1074,7 @@ async function submitNo() {
       });
     }
   } catch(e) { console.log('Airtable error:', e); }
+  finally { setButtonLoading('submit-no-btn', false, 'Send'); }
   document.getElementById('thankyou-msg').textContent = 'Sorry you can\'t make it, ' + name + '. We\'ll miss you!';
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
@@ -1116,6 +1126,15 @@ function showError(msg) {
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function setButtonLoading(buttonId, isLoading, defaultText) {
+  const button = document.getElementById(buttonId);
+  if (!button) return;
+  button.disabled = isLoading;
+  button.style.opacity = isLoading ? '0.7' : '1';
+  button.style.cursor = isLoading ? 'not-allowed' : 'pointer';
+  button.textContent = isLoading ? 'Sending…' : defaultText;
+}
+
 async function submitRSVP() {
   document.getElementById('form-error').style.display = 'none';
   const g1 = { name: document.getElementById('g1-name').value.trim(), food: sel['g1-food'], star: sel['g1-star'] || document.getElementById('g1-star-text').value.trim(), songs: getSongs('g1-songs') };
@@ -1135,6 +1154,7 @@ async function submitRSVP() {
   localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
 
   // Send to Airtable
+  setButtonLoading('submit-rsvp-btn', true, 'Confirm RSVP');
   try {
     for (const g of guests) {
       await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
@@ -1156,6 +1176,7 @@ async function submitRSVP() {
       });
     }
   } catch(e) { console.log('Airtable error:', e); }
+  finally { setButtonLoading('submit-rsvp-btn', false, 'Confirm RSVP'); }
   const firstNames = guests.map(g => g.name.split(' ')[0]).join(' & ');
   document.getElementById('thankyou-msg').textContent = `Thank you, ${firstNames}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
   ['g1-name','g2-name'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
