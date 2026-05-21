@@ -35,6 +35,10 @@ body {
   overflow-x: hidden;
 }
 
+body.entrance-open {
+  overflow: hidden;
+}
+
 
 /* DISCO BALL */
 .disco-wrap {
@@ -716,7 +720,7 @@ footer { background: var(--blue); padding: 48px;  }
 }
 </style>
 </head>
-<body>
+<body class="entrance-open">
 
 <!-- ENTRANCE -->
 <div id="entrance">
@@ -924,6 +928,7 @@ let sel = { 'g1-food':'', 'g1-star':'' };
 function enterSite() {
   const entrance = document.getElementById('entrance');
   const main = document.getElementById('main-site');
+  document.body.classList.remove('entrance-open');
   
   entrance.classList.add('fade-out');
   
