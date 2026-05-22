@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rob and Hanna — 7.11.26</title>
+<title>Rob and Hanna - 7.11.26</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@200;300;400;500&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400&family=Great+Vibes&family=Caveat:wght@400;500&family=Courier+Prime:ital@0;1&display=swap');
 
@@ -33,6 +33,10 @@ body {
   font-weight: 300;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+body.entrance-open {
+  overflow: hidden;
 }
 
 
@@ -105,6 +109,14 @@ body {
 }
 
 .hero-nav a:hover { opacity: 0.6; }
+
+a:focus-visible,
+button:focus-visible,
+input[type="text"]:focus-visible,
+input[type="password"]:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
 
 /* ENTRANCE */
 #entrance {
@@ -624,9 +636,13 @@ input::placeholder { color: #ccc; }
   width: 56px; height: 56px;
   border: 1px solid var(--blue);
   border-radius: 50%;
-  display: flex;  justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto 32px;
-  font-size: 22px; color: var(--blue);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--blue);
   animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
 }
 @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
@@ -637,39 +653,7 @@ input::placeholder { color: #ccc; }
   text-decoration: underline; text-underline-offset: 3px; font-family: 'DM Sans', sans-serif;
 }
 
-/* ADMIN */
-.admin-login-wrap { max-width: 380px; margin: 60px auto; padding: 0 24px;  }
-.admin-wrap { max-width: 780px; margin: 0 auto; padding: 0 24px 60px; }
-.admin-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid rgba(43,53,175,0.1); }
-.back-btn { font-family: 'DM Sans', sans-serif; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid rgba(43,53,175,0.15); padding: 10px 20px; cursor: pointer; color: #888; transition: all 0.15s; }
-.back-btn:hover { border-color: var(--blue); color: var(--blue); }
-.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 32px; }
-.stat-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 22px;  }
-.stat-num { font-family: 'DM Sans', sans-serif; font-size: 36px;
-  font-weight: 700; color: var(--blue); }
-.stat-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
-.section-heading { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: #999; margin-bottom: 14px; margin-top: 28px; }
-.food-grid { display: flex; flex-wrap: wrap; gap: 10px; }
-.food-tile { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 14px 20px;  min-width: 90px; }
-.food-tile-num { font-family: 'DM Sans', sans-serif; font-size: 30px; color: var(--blue); }
-.food-tile-lbl { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #999; margin-top: 4px; }
-.submission-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 24px; margin-bottom: 12px; }
-.submission-header { display: flex; justify-content: space-between;  margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(43,53,175,0.1); }
-.submission-names { font-family: 'DM Sans', sans-serif; font-size: 20px; font-style: normal;
-  font-weight: 700; color: var(--blue); }
-.submission-time { font-size: 10px; letter-spacing: 1px; color: #aaa; background: #f7f8fc; padding: 4px 10px; }
-.guest-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.guest-row.single { grid-template-columns: 1fr; }
-.detail-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #bbb; margin-bottom: 3px; }
-.detail-value { font-size: 14px; color: var(--blue); }
-.detail-block { margin-bottom: 10px; }
-.songs-ul { list-style: none; }
-.songs-ul li { font-size: 13px; color: #555; margin-bottom: 2px; }
-.songs-ul li::before { content: "♪  "; color: var(--blue); }
-.empty-state {  padding: 60px 24px; color: #999; font-size: 13px; }
-.clear-btn { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; background: none; border: 1px solid #c0392b; padding: 10px 18px; cursor: pointer; color: #c0392b; margin-top: 28px; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
-.clear-btn:hover { background: #c0392b; color: white; }
-.error-msg { font-size: 12px; color: #c0392b; margin-top: 8px; display: none; }
+
 
 /* GIFTS */
 .gift-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 40px; margin-bottom: 20px; transform: rotate(-0.3deg); box-shadow: 3px 3px 0 var(--pink); }
@@ -710,10 +694,7 @@ footer { background: var(--blue); padding: 48px;  }
   .hero-scroll { right: 24px; }
   .section { padding: 60px 24px; }
   .guests-grid.two-up { grid-template-columns: 1fr; }
-  .guest-row { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2,1fr); }
   footer { padding: 40px 24px; }
-  .admin-top { flex-direction: column; gap: 16px; }
 }
 
 .alt-timeline { position: relative; padding: 12px 0 8px; margin-top: 8px; }
@@ -739,7 +720,7 @@ footer { background: var(--blue); padding: 48px;  }
 }
 </style>
 </head>
-<body>
+<body class="entrance-open">
 
 <!-- ENTRANCE -->
 <div id="entrance">
@@ -819,10 +800,15 @@ footer { background: var(--blue); padding: 48px;  }
 
         <!-- NO - just name -->
         <div id="no-rsvp-block" style="display:none;">
-          <label class="field-label">Your name</label>
-          <input type="text" id="no-name" placeholder="your name..." />
-          <div class="form-error" id="no-error"></div>
-          <button class="submit-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
+          <div class="guests-grid">
+            <div class="guest-card">
+              <div class="guest-card-title">Your details</div>
+              <label class="field-label">Full name</label>
+              <input type="text" id="no-name" placeholder="your name..." />
+              <div class="form-error" id="no-error"></div>
+              <button class="submit-btn" id="submit-no-btn" onclick="submitNo()" style="margin-top:24px;">Send</button>
+            </div>
+          </div>
         </div>
 
         <!-- YES - full form -->
@@ -841,33 +827,28 @@ footer { background: var(--blue); padding: 48px;  }
               <button class="pill" onclick="selectPill(this,'g1-food')">Vegan</button>
             </div>
             <label class="field-label">Star sign</label>
-            <input type="text" id="g1-star-text" placeholder="e.g. Scorpio..." oninput="sel['g1-star']=this.value" />
+            <div class="pill-grid" id="g1-star-pills">
+              <button class="pill" onclick="selectPill(this,'g1-star')">Aries</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Taurus</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Gemini</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Cancer</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Leo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Virgo</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Libra</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Scorpio</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Sagittarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Capricorn</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Aquarius</button>
+              <button class="pill" onclick="selectPill(this,'g1-star')">Pisces</button>
+            </div>
             <label class="field-label">Song request</label>
-            <div id="g1-songs"><div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div></div>
+            <div id="g1-song"><div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div></div>
           </div>
 
-          <div class="guest-card hidden" id="col-g2" style="display:none;">
-            <div class="guest-card-title">Guest 2</div>
-            <label class="field-label">Full name</label>
-            <input type="text" id="g2-name" placeholder="their name..." />
-            <label class="field-label">Meal choice</label>
-            <div class="pill-grid" id="g2-food-pills">
-              <button class="pill" onclick="selectPill(this,'g2-food')">Chicken</button>
-              <button class="pill" onclick="selectPill(this,'g2-food')">Beef</button>
-              <button class="pill" onclick="selectPill(this,'g2-food')">Salmon</button>
-              <button class="pill" onclick="selectPill(this,'g2-food')">Vegetarian</button>
-              <button class="pill" onclick="selectPill(this,'g2-food')">Vegan</button>
-            </div>
-            <label class="field-label">Star sign</label>
-            <input type="text" id="g2-star-text" placeholder="e.g. Scorpio..." oninput="sel['g2-star']=this.value" />
-            <label class="field-label">Song requests <span style="color:#ccc;font-size:9px;">(up to 3)</span></label>
-            <div id="g2-songs"><div class="song-row"><input type="text" placeholder="song & artist..." /></div></div>
-            <button class="add-song-btn" onclick="addSong('g2-songs')">+ Add a song</button>
-          </div>
         </div>
 
         <div class="form-error" id="form-error"></div>
-        <button class="submit-btn" onclick="submitRSVP()">Confirm RSVP</button>
+        <button class="submit-btn" id="submit-rsvp-btn" onclick="submitRSVP()">Confirm RSVP</button>
         </div><!-- /yes-rsvp-block -->
       </div>
 
@@ -876,43 +857,6 @@ footer { background: var(--blue); padding: 48px;  }
           <div class="check-circle">✓</div>
           <h2 class="section-title" style="color:var(--blue);">Thank you</h2>
           <p id="thankyou-msg">Your RSVP has been received.</p>
-          <button class="text-link" onclick="showAdminLogin()">Admin view</button>
-        </div>
-      </div>
-
-      <div id="admin-login" style="display:none;">
-        <div class="admin-login-wrap">
-          <span class="section-eyebrow">Admin</span>
-          <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
-          <div class="divider"></div>
-          <label class="field-label">Password</label>
-          <input type="password" id="admin-password" placeholder="enter password..." onkeydown="if(event.key==='Enter')checkPassword()" />
-          <div id="password-error" class="error-msg">Incorrect password.</div>
-          <button class="submit-btn" style="margin-top:20px;" onclick="checkPassword()">Enter</button>
-          <br><br>
-          <button class="text-link" onclick="showRSVPForm()">← Back</button>
-        </div>
-      </div>
-
-      <div id="admin-view" style="display:none;">
-        <div class="admin-wrap">
-          <div class="admin-top">
-            <div>
-              <span class="section-eyebrow">Admin</span>
-              <h2 class="section-title" style="color:var(--blue);font-size:40px;">Guest List</h2>
-            </div>
-            <button class="back-btn" onclick="showRSVPForm()">← Back to RSVP</button>
-          </div>
-          <div class="stats-row">
-            <div class="stat-card"><div class="stat-num" id="stat-submissions">0</div><div class="stat-lbl">Submissions</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-guests">0</div><div class="stat-lbl">Total Guests</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-songs">0</div><div class="stat-lbl">Song Requests</div></div>
-            <div class="stat-card"><div class="stat-num" id="stat-topsign">—</div><div class="stat-lbl">Top Star Sign</div></div>
-          </div>
-          <div id="food-summary"></div>
-          <div class="section-heading">All responses</div>
-          <div id="guest-list"></div>
-          <button class="clear-btn" onclick="clearData()">Clear all responses</button>
         </div>
       </div>
 
@@ -981,17 +925,15 @@ footer { background: var(--blue); padding: 48px;  }
 </div>
 
 <script>
-const ADMIN_PASS = 'robhanna2026';
-const AIRTABLE_TOKEN = 'patiCIKCW0aKJB94d.33191334acd3e52f1bbf4f1eaabd4493602298d2e0781f370b9f0f2f81c6bb0b';
-const AIRTABLE_BASE = 'appkOCg0RLlb00Xfj';
-const AIRTABLE_TABLE = 'tblPMSALr4iopXark';
-let submissions = JSON.parse(localStorage.getItem('rh_rsvp_v5') || '[]');
-let sel = { 'g1-food':'', 'g1-star':'', 'g2-food':'', 'g2-star':'' };
-let partySize = 1;
+const AIRTABLE_TOKEN = 'patc1nxZg1V3FR9p4.4d07f93cfe876c859307c5b3d4b007774131664a499da4634a32f2cea5d29736';
+const AIRTABLE_BASE = 'appT2AOqyq0NmVra4';
+const AIRTABLE_TABLE = 'tbln9S34P3Ys8pxfF';
+let sel = { 'g1-food':'', 'g1-star':'' };
 
 function enterSite() {
   const entrance = document.getElementById('entrance');
   const main = document.getElementById('main-site');
+  document.body.classList.remove('entrance-open');
   
   entrance.classList.add('fade-out');
   
@@ -1035,60 +977,41 @@ function setAttendance(attending) {
   }
 }
 
+async function sendRSVP(guest) {
+  try {
+    await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          'Name': guest.name,
+          'Attending': guest.attending,
+          'Meal': guest.food,
+          'Star Sign': guest.star,
+          'Song Requests': guest.song
+        }
+      })
+    });
+  } catch(e) { console.error('Airtable error:', e); }
+}
+
 async function submitNo() {
   const name = document.getElementById('no-name').value.trim();
   const err = document.getElementById('no-error');
   if (!name) { err.textContent = 'Please enter your name.'; err.style.display = 'block'; return; }
-  const entry = { id: Date.now(), guests: [{ name, food: 'N/A', star: 'N/A', songs: [], attending: false }], submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) };
-  submissions.push(entry);
-  localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
-
+  const guest = { name, food:'None', star:'None', song: 'None', attending: false };
   // Send to Airtable
+  setButtonLoading('submit-no-btn', true, 'Send');
   try {
-    for (const g of guests) {
-      await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fields: {
-            'Name': g.name,
-            'Attending': true,
-            'Meal': g.food,
-            'Star Sign': g.star,
-            'Songs': g.songs.join(', '),
-            'Submitted': entry.submitted
-          }
-        })
-      });
-    }
-  } catch(e) { console.log('Airtable error:', e); }
+    await sendRSVP(guest);
+  } catch(e) { console.error('Airtable error:', e); }
+  finally { setButtonLoading('submit-no-btn', false, 'Send'); }
   document.getElementById('thankyou-msg').textContent = 'Sorry you can\'t make it, ' + name + '. We\'ll miss you!';
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
-}
-
-function setPartySize(n) {
-  partySize = n;
-  document.querySelectorAll('.toggle-btn').forEach((b,i) => b.classList.toggle('active', i===n-1));
-  const twoUp = n === 2;
-  document.getElementById('guests-grid').classList.toggle('two-up', twoUp);
-  document.getElementById('col-g2').classList.toggle('hidden', !twoUp);
-  document.getElementById('col1-label').textContent = twoUp ? 'Guest 1' : 'Your details';
-}
-
-function selectStarDrop(el, group) {
-  sel[group] = el.value;
-}
-
-function selectStar(el, group) {
-  document.querySelectorAll('.star-btn').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  sel[group] = el.textContent.trim();
-  const display = document.getElementById(group.replace('-star', '-star-display'));
-  if (display) display.textContent = el.textContent.trim();
 }
 
 function selectPill(el, group) {
@@ -1097,72 +1020,44 @@ function selectPill(el, group) {
   sel[group] = el.textContent.trim();
 }
 
-function addSong(cid) {
-  const c = document.getElementById(cid);
-  if (c.children.length >= 3) return;
-  const r = document.createElement('div');
-  r.className = 'song-row';
-  r.innerHTML = '<input type="text" placeholder="song & artist..." />';
-  c.appendChild(r);
-}
-
-function getSongs(cid) {
-  return [...document.querySelectorAll('#'+cid+' input')].map(i=>i.value.trim()).filter(Boolean);
-}
-
 function showError(msg) {
   const el = document.getElementById('form-error');
   el.textContent = msg; el.style.display = 'block';
   el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function setButtonLoading(buttonId, isLoading, defaultText) {
+  const button = document.getElementById(buttonId);
+  if (!button) return;
+  button.disabled = isLoading;
+  button.style.opacity = isLoading ? '0.7' : '1';
+  button.style.cursor = isLoading ? 'not-allowed' : 'pointer';
+  button.textContent = isLoading ? 'Sending…' : defaultText;
+}
+
 async function submitRSVP() {
   document.getElementById('form-error').style.display = 'none';
-  const g1 = { name: document.getElementById('g1-name').value.trim(), food: sel['g1-food'], star: sel['g1-star'] || document.getElementById('g1-star-text').value.trim(), songs: getSongs('g1-songs') };
-  if (!g1.name) { showError('Please enter your name.'); return; }
-  if (!g1.food) { showError('Please choose a meal for guest 1.'); return; }
-  if (!g1.star) { showError('Please enter a star sign for guest 1.'); return; }
-  const guests = [g1];
-  if (partySize === 2) {
-    const g2 = { name: document.getElementById('g2-name').value.trim(), food: sel['g2-food'], star: sel['g2-star'] || document.getElementById('g2-star-text').value.trim(), songs: getSongs('g2-songs') };
-    if (!g2.name) { showError('Please enter a name for guest 2.'); return; }
-    if (!g2.food) { showError('Please choose a meal for guest 2.'); return; }
-    if (!g2.star) { showError('Please enter a star sign for guest 2.'); return; }
-    guests.push(g2);
-  }
-  const entry = { id: Date.now(), guests, submitted: new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) };
-  submissions.push(entry);
-  localStorage.setItem('rh_rsvp_v5', JSON.stringify(submissions));
-
+  const guestNameEl = document.getElementById('g1-name');
+  const guest = { 
+    name: guestNameEl.value.trim(), 
+    food: sel['g1-food'], 
+    star: sel['g1-star'], 
+    song: document.querySelector('#g1-song input').value.trim(),
+    attending: true
+  };
+  if (!guest.name) { showError('Please enter your name.'); return; }
+  if (!guest.food) { showError('Please choose a meal.'); return; }
+  if (!guest.star) { showError('Please enter a star sign.'); return; }
+  
   // Send to Airtable
+  setButtonLoading('submit-rsvp-btn', true, 'Confirm RSVP');
   try {
-    for (const g of guests) {
-      await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${AIRTABLE_TABLE}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          fields: {
-            'Name': g.name,
-            'Attending': true,
-            'Meal': g.food,
-            'Star Sign': g.star,
-            'Songs': g.songs.join(', '),
-            'Submitted': entry.submitted
-          }
-        })
-      });
-    }
-  } catch(e) { console.log('Airtable error:', e); }
-  const firstNames = guests.map(g => g.name.split(' ')[0]).join(' & ');
-  document.getElementById('thankyou-msg').textContent = `Thank you, ${firstNames}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
-  ['g1-name','g2-name'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
-  document.querySelectorAll('.pill').forEach(p => p.classList.remove('selected'));
-  ['g1-songs','g2-songs'].forEach(id => { document.getElementById(id).innerHTML = '<div class="song-row"><input type="text" placeholder="song &amp; artist..." /></div>'; });
-  sel = { 'g1-food':'', 'g1-star':'', 'g2-food':'', 'g2-star':'' };
-  setPartySize(1);
+    await sendRSVP(guest);
+  } catch(e) { console.error('Airtable error:', e); }
+  finally { setButtonLoading('submit-rsvp-btn', false, 'Confirm RSVP'); }
+  const firstName = guest.name.split(' ')[0];
+  document.getElementById('thankyou-msg').textContent = `Thank you, ${firstName}! Your RSVP has been received. We can't wait to celebrate with you on 7th November 2026.`;
+
   document.getElementById('rsvp-form-view').style.display = 'none';
   document.getElementById('rsvp-thankyou').style.display = 'block';
   document.getElementById('rsvp').scrollIntoView({ behavior: 'smooth' });
@@ -1171,65 +1066,6 @@ async function submitRSVP() {
 function showRSVPForm() {
   document.getElementById('rsvp-form-view').style.display = 'block';
   document.getElementById('rsvp-thankyou').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'none';
-  document.getElementById('admin-view').style.display = 'none';
-}
-
-function showAdminLogin() {
-  document.getElementById('rsvp-thankyou').style.display = 'none';
-  document.getElementById('admin-login').style.display = 'block';
-}
-
-function checkPassword() {
-  document.getElementById('password-error').style.display = 'none';
-  if (document.getElementById('admin-password').value === ADMIN_PASS) {
-    document.getElementById('admin-password').value = '';
-    document.getElementById('admin-login').style.display = 'none';
-    renderAdmin();
-    document.getElementById('admin-view').style.display = 'block';
-  } else {
-    document.getElementById('password-error').style.display = 'block';
-  }
-}
-
-function renderAdmin() {
-  const allGuests = submissions.flatMap(s => s.guests);
-  document.getElementById('stat-submissions').textContent = submissions.length;
-  document.getElementById('stat-guests').textContent = allGuests.length;
-  document.getElementById('stat-songs').textContent = allGuests.reduce((a,g)=>a+g.songs.length,0);
-  const signCounts = {};
-  allGuests.forEach(g => signCounts[g.star]=(signCounts[g.star]||0)+1);
-  const top = Object.entries(signCounts).sort((a,b)=>b[1]-a[1])[0];
-  document.getElementById('stat-topsign').textContent = top ? top[0].replace(/^\S+\s/,'') : '—';
-  const foodCounts = {};
-  allGuests.forEach(g => { foodCounts[g.food]=(foodCounts[g.food]||0)+1; });
-  document.getElementById('food-summary').innerHTML = Object.keys(foodCounts).length ? `
-    <div class="section-heading">Meal breakdown</div>
-    <div class="food-grid">${Object.entries(foodCounts).map(([f,c])=>`<div class="food-tile"><div class="food-tile-num">${c}</div><div class="food-tile-lbl">${f}</div></div>`).join('')}</div>` : '';
-  const list = document.getElementById('guest-list');
-  if (!submissions.length) { list.innerHTML = '<div class="empty-state">No responses yet.</div>'; return; }
-  list.innerHTML = submissions.slice().reverse().map(s => {
-    const names = s.guests.map(g=>g.name).join(' & ');
-    const blocks = s.guests.map(g=>`
-      <div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--blue);margin-bottom:10px;">${g.name}</div>
-        <div class="detail-block"><div class="detail-label">Meal</div><div class="detail-value">${g.food}</div></div>
-        <div class="detail-block"><div class="detail-label">Star Sign</div><div class="detail-value">${g.star}</div></div>
-        ${g.songs.length?`<div class="detail-block"><div class="detail-label">Songs</div><ul class="songs-ul">${g.songs.map(s=>`<li>${s}</li>`).join('')}</ul></div>`:''}
-      </div>`).join('');
-    return `<div class="submission-card">
-      <div class="submission-header"><div class="submission-names">${names}</div><div class="submission-time">${s.submitted}</div></div>
-      <div class="guest-row ${s.guests.length===1?'single':''}">${blocks}</div>
-    </div>`;
-  }).join('');
-}
-
-function clearData() {
-  if (confirm('Delete all responses? This cannot be undone.')) {
-    submissions = [];
-    localStorage.removeItem('rh_rsvp_v5');
-    renderAdmin();
-  }
 }
 </script>
 </body>
