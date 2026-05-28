@@ -40,54 +40,7 @@ body.entrance-open {
 }
 
 
-/* DISCO BALL */
-.disco-wrap {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.disco-ball {
-  width: 120px;
-  height: 140px;
-  animation: swing 4s ease-in-out infinite;
-  transform-origin: 60px 0;
-  filter: drop-shadow(0 8px 24px rgba(200,180,255,0.3));
-}
-
-@keyframes swing {
-  0%, 100% { transform: rotate(-6deg); }
-  50% { transform: rotate(6deg); }
-}
-
-.shimmer {
-  animation: shimmer 2s ease-in-out infinite;
-}
-.s1 { animation-delay: 0s; }
-.s2 { animation-delay: 0.4s; }
-.s3 { animation-delay: 0.8s; }
-.s4 { animation-delay: 1.2s; }
-.s5 { animation-delay: 1.6s; }
-
-@keyframes shimmer {
-  0%, 100% { opacity: 0; r: 2; }
-  50% { opacity: 1; r: 4; }
-}
-
-.beam {
-  animation: beam 3s ease-in-out infinite;
-}
-.b1 { animation-delay: 0s; }
-.b2 { animation-delay: 1s; }
-.b3 { animation-delay: 2s; }
-
-@keyframes beam {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
-}
-
-
-
+/* HERO NAV */
 .hero-nav {
   position: absolute;
   top: 20px;
@@ -375,6 +328,28 @@ nav {
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(6px); }
+}
+
+/* DISCO THREE BALL */
+#disco-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 280px;
+  z-index: 6;
+  pointer-events: none;
+}
+#disco-container canvas { display: block; }
+
+/* DISCO REFLECTIONS */
+#reflections-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* SECTIONS */
@@ -724,6 +699,8 @@ footer { background: var(--blue); padding: 48px;  }
 
 <!-- ENTRANCE -->
 <div id="entrance">
+  <canvas id="reflections-canvas"></canvas>
+  <div id="disco-container"><canvas id="disco-canvas"></canvas></div>
 
   <div class="entrance-top">
     <div class="eye-chart">
@@ -1068,5 +1045,7 @@ function showRSVPForm() {
   document.getElementById('rsvp-thankyou').style.display = 'none';
 }
 </script>
+
+<script type="module" src="discoball.js"></script>
 </body>
 </html>
