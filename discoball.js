@@ -42,7 +42,7 @@ LIGHT_COLORS.forEach((color) => {
 
 const BALL_X = 0.1;
 const ball = createDiscoBall();
-ball.position.set(BALL_X, 3.5, 0); // start off-screen above
+ball.position.set(BALL_X, 0, 0);
 scene.add(ball);
 
 // String: thin cylinder from ceiling anchor to top of ball
@@ -112,30 +112,11 @@ function createDiscoBall() {
 function animate(ball, stringMesh) {
   let elapsed = 0;
   const clock = new THREE.Clock();
-  const DROP_FROM = 3.5;
-  const REST_Y = 0;
-  const DROP_DURATION = 1.1;
-
-  // Spring easing: drops fast, slight bounce at landing
-  function springEase(t) {
-    const c = 3.5,
-      d = 4.5;
-    return 1 - Math.exp(-c * t) * Math.cos(d * t);
-  }
 
   (function loop() {
     requestAnimationFrame(loop);
     const delta = clock.getDelta();
     elapsed += delta;
-
-    // Drop animation
-    if (elapsed < DROP_DURATION) {
-      const raw = elapsed / DROP_DURATION;
-      const ease = Math.min(springEase(raw * 1.8), 1.15);
-      ball.position.y = DROP_FROM + (REST_Y - DROP_FROM) * ease;
-    } else {
-      ball.position.y = REST_Y;
-    }
 
     // Resize and reposition string cylinder to span anchor → top of ball
     const topOfBall = ball.position.y + BALL_RADIUS;
