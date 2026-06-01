@@ -921,9 +921,9 @@ footer { background: var(--blue); padding: 48px;  }
 </div>
 
 <script>
-const AIRTABLE_TOKEN = 'patc1nxZg1V3FR9p4.4d07f93cfe876c859307c5b3d4b007774131664a499da4634a32f2cea5d29736';
-const AIRTABLE_BASE = 'appT2AOqyq0NmVra4';
-const AIRTABLE_TABLE = 'tbln9S34P3Ys8pxfF';
+const AIRTABLE_TOKEN = 'patXdBwjorqFnrFOA.16ecf57ae58f4d0fbc08d1f8ec6b7a81f7d952f8d3400f46be788c93209291cc';
+const AIRTABLE_BASE = 'appkOCg0RLlb00Xfj';
+const AIRTABLE_TABLE = 'tblPMSALr4iopXark';
 let sel = { 'g1-food':'', 'g1-star':'' };
 
 function enterSite() {
@@ -999,7 +999,7 @@ async function submitNo() {
   const name = document.getElementById('no-name').value.trim();
   const err = document.getElementById('no-error');
   if (!name) { err.textContent = 'Please enter your name.'; err.style.display = 'block'; return; }
-  const guest = { name, food:'None', allergies: '', star:'None', song: 'None', attending: false };
+  const guest = { name, food:'None', allergies: 'None', star:'None', song: 'None', attending: false };
   // Send to Airtable
   setButtonLoading('submit-no-btn', true, 'Send');
   try {
