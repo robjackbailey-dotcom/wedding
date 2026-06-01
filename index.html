@@ -553,6 +553,24 @@ input[type="text"], input[type="password"] {
 input:focus { border-bottom-color: var(--blue); }
 input::placeholder { color: #ccc; }
 
+textarea {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(43,53,175,0.15);
+  background: transparent;
+  padding: 8px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--blue);
+  outline: none;
+  transition: border-color 0.2s;
+  resize: none;
+  min-height: 60px;
+}
+textarea:focus { border-bottom-color: var(--blue); }
+textarea::placeholder { color: #ccc; }
+
 .pill-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 
 .pill {
@@ -636,6 +654,7 @@ input::placeholder { color: #ccc; }
 .gift-btn { display: inline-block; padding: 14px 32px; background: var(--blue); color: white; text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; transition: background 0.2s; }
 .gift-btn:hover { background: var(--blue-mid); }
 .gift-note { font-family: 'Courier Prime', monospace; font-size: 12px; color: #aaa; margin-top: 12px; font-style: italic; }
+.gift-soon { font-family: 'Courier Prime', monospace; font-size: 12px; color: #aaa; font-style: italic; margin-top: 0; }
 
 /* INFO */
 .info-card { background: white; border: 1px solid rgba(43,53,175,0.1); padding: 32px; margin-bottom: 16px; }
@@ -797,12 +816,13 @@ footer { background: var(--blue); padding: 48px;  }
             <input type="text" id="g1-name" placeholder="your name..." />
             <label class="field-label">Meal choice</label>
             <div class="pill-grid" id="g1-food-pills">
-              <button class="pill" onclick="selectPill(this,'g1-food')">Chicken</button>
-              <button class="pill" onclick="selectPill(this,'g1-food')">Beef</button>
-              <button class="pill" onclick="selectPill(this,'g1-food')">Salmon</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Lamb</button>
+              <button class="pill" onclick="selectPill(this,'g1-food')">Sea Bream</button>
               <button class="pill" onclick="selectPill(this,'g1-food')">Vegetarian</button>
               <button class="pill" onclick="selectPill(this,'g1-food')">Vegan</button>
             </div>
+            <label class="field-label">Allergies or dietary requirements</label>
+            <textarea id="g1-allergies" placeholder="let us know of any allergies or dietary requirements..."></textarea>
             <label class="field-label">Star sign</label>
             <div class="pill-grid" id="g1-star-pills">
               <button class="pill" onclick="selectPill(this,'g1-star')">Aries</button>
@@ -889,8 +909,7 @@ footer { background: var(--blue); padding: 48px;  }
       <div class="divider"></div>
       <div class="gift-card">
         <p>Honestly we are just excited to spend the day with you but if you'd like to make a small contribution to our honeymoon fund to Thailand and Australia that would be majorly appreciated.</p>
-        <a href="https://www.prezola.com" target="_blank" class="gift-btn">View our gift list →</a>
-        <div class="gift-note">Link will be updated with our full registry soon.</div>
+        <p class="gift-soon">More details to be shared closer to the time.</p>
       </div>
     </div>
   </div>
@@ -967,6 +986,7 @@ async function sendRSVP(guest) {
           'Name': guest.name,
           'Attending': guest.attending,
           'Meal': guest.food,
+          'Allergies': guest.allergies,
           'Star Sign': guest.star,
           'Song Requests': guest.song
         }
@@ -979,7 +999,7 @@ async function submitNo() {
   const name = document.getElementById('no-name').value.trim();
   const err = document.getElementById('no-error');
   if (!name) { err.textContent = 'Please enter your name.'; err.style.display = 'block'; return; }
-  const guest = { name, food:'None', star:'None', song: 'None', attending: false };
+  const guest = { name, food:'None', allergies: '', star:'None', song: 'None', attending: false };
   // Send to Airtable
   setButtonLoading('submit-no-btn', true, 'Send');
   try {
@@ -1018,6 +1038,7 @@ async function submitRSVP() {
   const guest = { 
     name: guestNameEl.value.trim(), 
     food: sel['g1-food'], 
+    allergies: document.getElementById('g1-allergies').value.trim(),
     star: sel['g1-star'], 
     song: document.querySelector('#g1-song input').value.trim(),
     attending: true
